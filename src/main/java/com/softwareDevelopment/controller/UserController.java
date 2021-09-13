@@ -1,24 +1,17 @@
 package com.softwareDevelopment.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.softwareDevelopment.model.Account;
-import com.softwareDevelopment.model.Film;
 import com.softwareDevelopment.model.MessageHandler;
 import com.softwareDevelopment.model.User;
 import com.softwareDevelopment.repos.AccountRepo;
@@ -36,6 +29,8 @@ public class UserController {
 	AccountRepo accountrepo;
 	@Autowired
 	MessageHandler mh;
+	@Autowired
+	BCryptPasswordEncoder passwordEncoder;
 	
 	@PostMapping("/register")
 	public ResponseEntity<User> registerUser(@RequestBody User register)
@@ -50,7 +45,7 @@ public class UserController {
 		}
 	}
 	
-	@PutMapping("/Profile/changes")
+	@PutMapping("/session/Profile/changes")
 	public ResponseEntity<User> EditUser(@RequestBody User register)
 	{
 		User checkUser=userrepo.findUserBySEmail(register.getsEmail());
@@ -64,13 +59,13 @@ public class UserController {
 		}
 	}
 	
-	@GetMapping("/user/{id}")
+	@GetMapping("/session/user/{id}")
 	public User getUser(@PathVariable("id") int id)
 	{
 		return userrepo.findById(id).get();
 	}
 	
-	@GetMapping("/account/{id}")
+	@GetMapping("/session/account/{id}")
 	public Account getlogin(@PathVariable("id") int id)
 	{
 		return accountrepo.findById(id).get();
@@ -87,6 +82,7 @@ public class UserController {
 			mh.setHttpstatus(HttpStatus.CONFLICT);
 		}
 		else {
+			newAccount.setsPassword(passwordEncoder.encode(newAccount.getsPassword()));
 			account=accountrepo.save(newAccount);
 			mh.setMessage("OK");
 			mh.setHttpstatus(HttpStatus.OK);
@@ -94,7 +90,7 @@ public class UserController {
 		return mh;
 	}
 	
-	@PostMapping("/login")
+	@PostMapping("/userlogin")
 	public ResponseEntity<User> login(@RequestBody Account login)
 	{
 		account=accountrepo.findByUsername(login.getsUsername());
@@ -106,5 +102,4 @@ public class UserController {
 			return new ResponseEntity<User>(account.getUser(),HttpStatus.OK);
 		}
 	}
-
 }

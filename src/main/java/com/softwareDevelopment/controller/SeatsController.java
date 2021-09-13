@@ -38,7 +38,7 @@ public class SeatsController {
 	ShowRepo showrepo;
 
 	
-	@GetMapping("show/seats/{show_id}")
+	@GetMapping("/session/show/seats/{show_id}")
 	@ResponseBody
 	public ResponseEntity<List<Seat>> getAllAvailableSeatsForShow(@PathVariable("show_id") int show_id)
 	{
@@ -99,7 +99,7 @@ public class SeatsController {
 			}
 	}   */
 	
-	@RequestMapping("/bookingAbort")
+	@RequestMapping("/session/bookingAbort")
 	public String releaseLock(Model m, @RequestParam List<Seat> seats,@RequestParam int show_id)
 	{
 		for(Seat seat: seats) {
@@ -109,7 +109,7 @@ public class SeatsController {
 		return "";
 	}
 	
-	@PostMapping("/seat/add")
+	@PostMapping("/admin/seat/add")
 	@ResponseBody
 	public ResponseEntity<Seat> addSeat(@RequestBody Seat seat)
 	{

@@ -49,7 +49,7 @@ public class BookingController {
 	@Autowired
 	MessageHandler mh;
 	
-	@GetMapping("/Bookings/{show_id}")
+	@GetMapping("/session/Bookings/{show_id}")
 	@ResponseBody
 	public ResponseEntity<List<Booking>> getShowBookings(@PathVariable int show_id)
 	{
@@ -57,7 +57,7 @@ public class BookingController {
 		return new ResponseEntity<List<Booking>>(bookingsForShow,HttpStatus.OK);
 	}
 	
-	@GetMapping("/MyBookings/{user_id}")
+	@GetMapping("/session/MyBookings/{user_id}")
 	@ResponseBody
 	public ResponseEntity<List<List<Booking>>> getUserBookings(@PathVariable int user_id)
 	{
@@ -83,7 +83,7 @@ public class BookingController {
 		return new ResponseEntity<List<List<Booking>>>(listByShows,HttpStatus.OK);
 	}
 	
-	@PostMapping("/seatbooking")
+	@PostMapping("/session/seatbooking")
 	@ResponseBody
 	public MessageHandler bookingConfirmation(@RequestBody BookingRequest bookingReq)
 	{

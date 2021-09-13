@@ -37,8 +37,8 @@ const sendHttpRequest = (method, url, data) => {
 
   const sendData = () => {
     var data={
-      sUsername: document.getElementById("username").value,
-      sPassword: document.getElementById("password").value
+      username: document.getElementById("username").value,
+      password: document.getElementById("password").value
     }
     sendHttpRequest('POST', 'http://localhost:8080/login', data)
       .then(user => {

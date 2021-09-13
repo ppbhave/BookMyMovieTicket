@@ -42,7 +42,7 @@ public class ReviewController {
 		return reviews;
 	}
 	
-	@PostMapping("/newReview")
+	@PostMapping("/session/newReview")
 	@ResponseBody
 	public MessageHandler addNewReview(@RequestBody Review review)
 	{
@@ -54,7 +54,7 @@ public class ReviewController {
 		return mh;
 	}
 	
-	@DeleteMapping("/dropReview")
+	@DeleteMapping("/session/dropReview")
 	@ResponseBody
 	public String deleteReview(@RequestBody Review review)
 	{

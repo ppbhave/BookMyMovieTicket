@@ -19,6 +19,13 @@ public class Account {
 	User user;
 	String sUsername;
 	String sPassword;
+	String Role;
+	public String getRole() {
+		return Role;
+	}
+	public void setRole(String role) {
+		Role = role;
+	}
 	public int getId() {
 		return id;
 	}

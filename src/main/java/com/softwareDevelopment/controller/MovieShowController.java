@@ -59,7 +59,7 @@ public class MovieShowController {
 	} 
 
 	@ResponseBody
-	@PostMapping("/show/addition")
+	@PostMapping("/admin/show/addition")
 	public ResponseEntity<HttpStatus> setMovieShow(@RequestBody Shows show) 
 	{
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
@@ -73,7 +73,7 @@ public class MovieShowController {
 	}
 	
 	@ResponseBody
-	@GetMapping("/show/{id}")
+	@GetMapping("/session/show/{id}")
 	public ResponseEntity<Shows> getShowById(@PathVariable int show_id)
 	{	
 		Shows show=showrepo.findById(show_id).get();
