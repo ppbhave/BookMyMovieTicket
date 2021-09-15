@@ -31,6 +31,12 @@ public class UserController {
 	MessageHandler mh;
 	@Autowired
 	BCryptPasswordEncoder passwordEncoder;
+//    @Autowired
+//    private JwtUtil jwtUtility;
+//    @Autowired
+//    CustomUserDetailsService userservice;
+//    @Autowired
+//    private AuthenticationManager authenticationManager;
 	
 	@PostMapping("/register")
 	public ResponseEntity<User> registerUser(@RequestBody User register)
@@ -103,3 +109,4 @@ public class UserController {
 		}
 	}
 }
+
