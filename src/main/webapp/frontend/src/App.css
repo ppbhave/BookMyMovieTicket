@@ -1,0 +1,71 @@
+.App {
+  text-align: center;
+  display: block;
+}
+
+body {
+  font-family: "Open Sans", sans-serif;
+  color: #444444;
+  background-color:#f7f7f2
+}
+
+a {
+  color: #e80368;
+}
+
+a:hover {
+  color: #ffce3a;
+  text-decoration: none;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: "Raleway", sans-serif;
+}
+
+/*--------------------------------------------------------------
+# Back to top button
+--------------------------------------------------------------*/
+.back-to-top {
+  position: fixed;
+  display: none;
+  right: 15px;
+  bottom: 15px;
+  z-index: 99999;
+}
+
+.back-to-top i {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50px;
+  background: #ffc107;
+  color: #fff;
+  transition: all 0.4s;
+}
+
+.back-to-top i:hover {
+  background: #ffce3a;
+  color: #fff;
+}
+
+.page-content {
+  position: relative;
+  margin-top: 6.3%;
+}
+
+.area-title{
+  margin-bottom: 20px;
+  margin-left: 10px;
+  text-transform: capitalize;
+  font-family: Roboto;
+  font-size: 24px;
+  font-weight: bold;
+  color: rgb(51, 51, 51);
+  float:left;
+}
+.section-heading{
+  margin:30px
+}

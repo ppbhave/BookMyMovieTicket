@@ -34,25 +34,9 @@ public class filmController {
 	
 	@GetMapping(value={"/movies","/"})
 	@ResponseBody
-	public ResponseEntity<List<Film>> home(@RequestParam String language,@RequestParam String format,@RequestParam String genre)
+	public ResponseEntity<List<Film>> home()
 	{
-		List<Film> films =new ArrayList<Film>();
-		boolean include;
-		for(Film movie:filmrepo.findAll()) {
-			include=true;
-			if(!language.equals("none") && movie.getsLanguages().indexOf(language)<0) {
-				include=false;
-			}
-			if(!format.equals("none") && movie.getsScreenType().indexOf(format)<0) {
-				include=false;
-			}
-			if(!genre.equals("none") && movie.getsGenre().indexOf(genre)<0) {
-				include=false;
-			}			
-			if(include) {
-				films.add(movie);
-			}
-		}
+		List<Film> films =filmrepo.findAll();
 		ResponseEntity<List<Film>> listoffilms=new ResponseEntity<List<Film>>(films,HttpStatus.OK);
 		return listoffilms;
 	}

@@ -92,7 +92,7 @@ function ajaxCall() {
       document.getElementById("movie-title").innerHTML=movie.sMovieName;
 
    var dateOptions="";      
-   var showDate=new Date(2021, 09, 09);
+   var showDate=new Date(2021, 10, 09);
 	 var optvalue;
      while(showDate.getDay()<6)
      {

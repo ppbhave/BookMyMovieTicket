@@ -31,75 +31,78 @@ public class UserController {
 	MessageHandler mh;
 	@Autowired
 	BCryptPasswordEncoder passwordEncoder;
-	
+
+	@PostMapping("/register/user")
+	public HttpStatus userVerification(@RequestBody User user) {
+		if (userrepo.findUserBySEmail(user.getsEmail()) != null) {
+			return HttpStatus.CONFLICT;
+		} else {
+			return HttpStatus.OK;
+		}
+	}
+
 	@PostMapping("/register")
-	public ResponseEntity<User> registerUser(@RequestBody User register)
-	{
-		if(userrepo.findUserBySEmail(register.getsEmail()) !=null)
-		{
-			return new ResponseEntity<User>(register,HttpStatus.CONFLICT);
-		}
-		else {
-			register=userrepo.save(register);
-			return new ResponseEntity<User>(register,HttpStatus.OK);
+	public HttpStatus registration(@RequestBody Account account) {
+		if (userrepo.findUserBySEmail(account.getUser().getsEmail()) != null) {
+			return HttpStatus.CONFLICT;
+		} else {
+			if (accountrepo.findByUsername(account.getsUsername()) != null) {
+				return HttpStatus.CONFLICT;
+			} else {
+				account.setUser(userrepo.save(account.getUser()));
+				account.setsPassword(passwordEncoder.encode(account.getsPassword()));
+				account = accountrepo.save(account);
+				return HttpStatus.OK;
+			}
 		}
 	}
-	
+
 	@PutMapping("/session/Profile/changes")
-	public ResponseEntity<User> EditUser(@RequestBody User register)
-	{
-		User checkUser=userrepo.findUserBySEmail(register.getsEmail());
-		if(checkUser !=null && checkUser.getId()!=register.getId())
-		{
-			return new ResponseEntity<User>(register,HttpStatus.CONFLICT);
-		}
-		else {
-			register=userrepo.save(register);
-			return new ResponseEntity<User>(register,HttpStatus.OK);
+	public ResponseEntity<User> EditUser(@RequestBody User register) {
+		User checkUser = userrepo.findUserBySEmail(register.getsEmail());
+		if (checkUser != null && checkUser.getId() != register.getId()) {
+			return new ResponseEntity<User>(register, HttpStatus.CONFLICT);
+		} else {
+			register = userrepo.save(register);
+			return new ResponseEntity<User>(register, HttpStatus.OK);
 		}
 	}
-	
+
 	@GetMapping("/session/user/{id}")
-	public User getUser(@PathVariable("id") int id)
-	{
+	public User getUser(@PathVariable("id") int id) {
 		return userrepo.findById(id).get();
 	}
-	
+
 	@GetMapping("/session/account/{id}")
-	public Account getlogin(@PathVariable("id") int id)
-	{
+	public Account getlogin(@PathVariable("id") int id) {
 		return accountrepo.findById(id).get();
 	}
-	
-	
+
 	@PostMapping("/credentials")
-	public MessageHandler setCredentials(@RequestBody Account newAccount)
-	{
-		account=accountrepo.findByUsername(newAccount.getsUsername());
-		if(account!=null)
-		{
+	public MessageHandler setCredentials(@RequestBody Account newAccount) {
+		account = accountrepo.findByUsername(newAccount.getsUsername());
+		if (account != null) {
 			mh.setMessage("CONFLICT");
 			mh.setHttpstatus(HttpStatus.CONFLICT);
-		}
-		else {
+		} else {
 			newAccount.setsPassword(passwordEncoder.encode(newAccount.getsPassword()));
-			account=accountrepo.save(newAccount);
+			account = accountrepo.save(newAccount);
 			mh.setMessage("OK");
 			mh.setHttpstatus(HttpStatus.OK);
 		}
 		return mh;
 	}
 	
+	
+
 	@PostMapping("/userlogin")
-	public ResponseEntity<User> login(@RequestBody Account login)
-	{
-		account=accountrepo.findByUsername(login.getsUsername());
-		if(account==null || !account.getsPassword().equals(login.getsPassword()))
-		{
-			return new ResponseEntity<User>(login.getUser(),HttpStatus.CONFLICT);
+	public ResponseEntity<User> login(@RequestBody Account login) {
+		account = accountrepo.findByUsername(login.getsUsername());
+		if (account == null || !passwordEncoder.matches(login.getsPassword(), account.getsPassword())) {
+			return new ResponseEntity<User>(login.getUser(), HttpStatus.CONFLICT);
+		} else {
+			return new ResponseEntity<User>(account.getUser(), HttpStatus.OK);
 		}
-		else {
-			return new ResponseEntity<User>(account.getUser(),HttpStatus.OK);
-		}
+		
 	}
 }

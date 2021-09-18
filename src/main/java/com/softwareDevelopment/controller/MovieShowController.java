@@ -53,7 +53,9 @@ public class MovieShowController {
 		List<List<Shows>> listShows=new ArrayList<List<Shows>>();
 		
 		for(MovieToScreen ms:screenconnect) {
-			listShows.add(showrepo.findByScreenAndDate(ms.getScreen(), showDate1, showDate2));
+			List<Shows> lshow = showrepo.findByScreenAndDate(ms.getScreen(), showDate1, showDate2);
+			if(lshow.size() > 0) 
+				listShows.add(lshow);
 		}
 		return new ResponseEntity<List<List<Shows>>>(listShows,HttpStatus.OK);
 	} 
