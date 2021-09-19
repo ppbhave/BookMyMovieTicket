@@ -18,8 +18,16 @@ public class Seat {
 	@Autowired
 	@ManyToOne
 	Screen screen;
-    String pos;
-    boolean bookedFlag;
+	String pos;
+    @Column(columnDefinition="boolean default false")
+    boolean bookedFlag=false;
+	public Seat(Screen screen, String pos, boolean bookedFlag) {
+		super();
+		this.screen = screen;
+		this.pos = pos;
+		this.bookedFlag = bookedFlag;
+	}
+
 	public boolean isBookedFlag() {
 		return bookedFlag;
 	}

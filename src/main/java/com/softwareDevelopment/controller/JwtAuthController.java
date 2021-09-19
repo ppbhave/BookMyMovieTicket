@@ -7,11 +7,13 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.softwareDevelopment.model.JwtReq;
+import com.softwareDevelopment.model.JwtResp;
 import com.softwareDevelopment.securityImpls.CustomUserDetailsService;
 import com.softwareDevelopment.securityImpls.JwtUtil;
 
@@ -23,13 +25,15 @@ public class JwtAuthController {
 	private JwtUtil jwtUtil;
 	@Autowired
 	private AuthenticationManager authenticationManager;
+	@Autowired
+	BCryptPasswordEncoder passwordEncoder;
 
 	@PostMapping("/authenticate")
-	public ResponseEntity<String> authenticate(@RequestBody JwtReq jwtRequest) throws Exception {
+	public ResponseEntity<JwtResp> authenticate(@RequestBody JwtReq jwtRequest) throws Exception {
 
 		try {
-			this.authenticationManager.authenticate(
-					new UsernamePasswordAuthenticationToken(jwtRequest.getUsername(), jwtRequest.getPassword()));
+			this.authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(jwtRequest.getUsername(),
+					jwtRequest.getPassword()));
 		} catch (BadCredentialsException e) {
 			throw new Exception("INVALID_CREDENTIALS", e);
 		}
@@ -37,6 +41,6 @@ public class JwtAuthController {
 		UserDetails userDetails = this.userDetailsService.loadUserByUsername(jwtRequest.getUsername());
 		String token = this.jwtUtil.generateToken(userDetails);
 
-		return new ResponseEntity<String>(token, HttpStatus.OK);
+		return new ResponseEntity<JwtResp>(new JwtResp(token), HttpStatus.OK);
 	}
 }

@@ -1,7 +1,7 @@
 package com.softwareDevelopment.controller;
 
-import java.util.HashSet;
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.softwareDevelopment.model.Booking;
-import com.softwareDevelopment.model.Film;
 import com.softwareDevelopment.model.Screen;
 import com.softwareDevelopment.model.Seat;
 import com.softwareDevelopment.model.Shows;
@@ -115,6 +114,26 @@ public class SeatsController {
 	{
 		seat = seatsrepo.save(seat);
 		return new ResponseEntity<Seat>(seat,HttpStatus.OK);
+		
+	}
+	
+	@PostMapping("/admin/seat/install/{rows}/{cols}")
+	@ResponseBody
+	public ResponseEntity<Integer> installSeats(@RequestBody Screen screen, @PathVariable int rows,  @PathVariable int cols )
+	{
+		if(rows*cols != screen.getjTotalSeats()) {
+			return new ResponseEntity<Integer>(0,HttpStatus.BAD_REQUEST);
+		}
+		char seatPos='A';
+		int seatsAdded=0;
+		for(int i=0;i<rows;i++) {
+			for(int j=0;j<cols;j++) {
+				seatsrepo.save(new Seat(screen,seatPos+""+(j+1),false));
+				seatsAdded++;
+			}
+			seatPos++;
+		}
+		return new ResponseEntity<Integer>(seatsAdded,HttpStatus.OK);
 		
 	}
 
