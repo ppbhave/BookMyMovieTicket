@@ -7,11 +7,12 @@ function Seatbooking() {
     //     headers: { 'Authorization': 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBZG1pbiIsImV4cCI6MTYzMjA3MDk5MSwiaWF0IjoxNjMyMDUyOTkxfQ.9_X3KAOLE7UpA0ZyJxMJWwNIy-kNqqSemuOdOKLJKQ8xlBV04Vd3S5g7xMCX0KisBAYsnE0iGWSVdiwSwtdgBw' }
     // };
     useEffect(() => {
-        fetch("http://localhost:8080/session/show/seats/" + show_id, { headers:{'Authorization': 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBZG1pbiIsImV4cCI6MTYzMjA4OTA3MiwiaWF0IjoxNjMyMDcxMDcyfQ.KeJ14ydWbbL56ZKgz-vegD8TzzS-X5isipqsb1gQUbd41A1GzsQ2PzlOjItfFkvAS88lBErxZyMpYRefmvxgtA'} })
+        fetch("http://localhost:8080/session/show/seats/" + show_id, { 
+        headers:{'Authorization': 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJwYmhhdmUiLCJleHAiOjE2MzIxNTc1NTYsImlhdCI6MTYzMjEzOTU1Nn0.LGv6VJeRmUO7ybTFGhyPwxyJEhGOfzVnoS_qhXpsPUYgygq-g1pNMrlYu-ZfY7qZXdA-D_lhvQ_mcJAxZH38kw'}})
             .then((response) => response.json())
             .then((data) => {
                 console.log(data);
-            });
+            }).catch(err=>console.log(err));
     }, []);
     return (
         <div className="show-page-container" >

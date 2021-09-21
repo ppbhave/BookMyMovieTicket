@@ -3,7 +3,8 @@ import './App.css';
 // import MovieDetails from './components/MovieDetails';
 // import MovieShows from './components/MovieShows';
 // import UserRegistration from './components/UserRegistration'
-import Login from './components/Login'
+// import Login from './components/Login'
+import Seatbooking from './components/Seatbooking'
 
 function App() {
   return (
@@ -13,8 +14,9 @@ function App() {
       {/* <MovieCards/> 
       <MovieDetails/>
       <MovieShows />
-      <UserRegistration/>*/}
-      <Login/>
+      <UserRegistration/>
+      <Login/>*/}
+      <Seatbooking/>
       </div>
     </div>
   );
