@@ -1,73 +1,142 @@
-import { useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
+import { useParams, useHistory } from "react-router";
 import "./styles/seatbooking.css"
 function Seatbooking() {
-    const show_id = 1;
-    // const requestOptions = {
-    //     method: 'GET',
-    //     headers: { 'Authorization': 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBZG1pbiIsImV4cCI6MTYzMjA3MDk5MSwiaWF0IjoxNjMyMDUyOTkxfQ.9_X3KAOLE7UpA0ZyJxMJWwNIy-kNqqSemuOdOKLJKQ8xlBV04Vd3S5g7xMCX0KisBAYsnE0iGWSVdiwSwtdgBw' }
-    // };
+    const history = useHistory();
+    const historyPush = (url) => {
+        history.push(url);
+    }
+    const bookingParams = useParams();
+    const ticketCharge = 150;
+    const user = JSON.parse(sessionStorage.getItem("sessionUser"));
+    const [seats, setSeats] = useState([]);
+    const [movie, setMovie] = useState({ sMovieName: "" });
+    const [screen, setScreen] = useState({ theater: { sName: "" } });
+    const [payable, setPayable] = useState(0);
+    const alterAmount = (command) => {
+        let amount = payable;
+        setPayable(command ? amount += ticketCharge : amount -= ticketCharge);
+    }
+    const selectedSeats = useRef([]);
+
     useEffect(() => {
-        fetch("http://localhost:8080/session/show/seats/" + show_id, { 
-        headers:{'Authorization': 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJwYmhhdmUiLCJleHAiOjE2MzIxNTc1NTYsImlhdCI6MTYzMjEzOTU1Nn0.LGv6VJeRmUO7ybTFGhyPwxyJEhGOfzVnoS_qhXpsPUYgygq-g1pNMrlYu-ZfY7qZXdA-D_lhvQ_mcJAxZH38kw'}})
+        fetch("http://localhost:8080/session/show/seats/" + bookingParams.showid)
             .then((response) => response.json())
             .then((data) => {
-                console.log(data);
-            }).catch(err=>console.log(err));
+                setScreen(data[0].screen)
+                let seatsarr = [];
+                let seatRow = [];
+                let seatRowid = 'A';
+                for (let i = 0; i < data.length; i++) {
+                    if (seatRowid === data[i].pos.charAt(0)) {
+                        seatRow.push(data[i]);
+                    } else {
+                        seatsarr.push(seatRow);
+                        seatRow = [];
+                        seatRowid = data[i].pos.charAt(0);
+                        seatRow.push(data[i]);
+                    }
+                }
+                setSeats(seatsarr);
+            }).catch(err => console.log(err));
+        fetch("http://localhost:8080/movie/" + bookingParams.movieid)
+            .then((response) => response.json())
+            .then((data) => {
+                setMovie(data)
+            }).catch(err => console.log(err));
     }, []);
+
+    const startPayment = () => {
+        if (payable === 0) {
+            return;
+        }
+        let bookingReq = {
+            user_id: user.id,
+            show_id: parseInt(bookingParams.showid),
+            seats_id: selectedSeats.current,
+            movie: movie.sMovieName
+        }
+        const requestOptions = {
+            method: "POST",
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(bookingReq)
+        };
+        fetch("http://localhost:8080/session/seatbooking", requestOptions)
+            .then((response) => 
+            response.json())
+            .then((data) => {
+                if (data.httpstatus === "OK") {
+                    alert(data.message);
+                     historyPush("/Movies");
+                }
+            });
+    }
     return (
-        <div className="show-page-container" >
+        <div className="show-page-container page-content" >
 
-            <div className="section-heading section-title">
-                <h2 id="page-title">Book your seats</h2>
-                <div id="alt"></div>
-            </div>
-            <div className="row">
-                <div className="col-9">
-                    <div className="screen-seating-status">
-                        <div className="movie-container">
-                            <h3 id="movie_name"></h3>
-                            <h3 id="theater_name"></h3>
-                        </div>
+            <header className="booking-page-header row">
+                <div className="movie-show-ref">
+                    <h3>{movie.sMovieName}</h3>
+                    <stronng>{screen.theater.sName}</stronng>
+                </div>
 
-                        <ul className="showcase">
-                            <li>
-                                <div className="seat demo"></div>
-                                <small>Available</small>
-                            </li>
-                            <li>
-                                <div className="seat selected demo"></div>
-                                <small>Selected</small>
-                            </li>
-                            <li>
-                                <div className="seat occupied demo"></div>
-                                <small>Occupied</small>
-                            </li>
-                        </ul>
-
-                        <div className="screen"><p className="screentext">All eyes this side</p></div>
-                        <div className="seating-arrangement" id="seating-arrangement">
-
-                        </div>
+                <ul className="showcase">
+                    <li key={"Available"}>
+                        <div className="seat demo"></div>
+                        <small>Available</small>
+                    </li>
+                    <li key={"Selected"}>
+                        <div className="seat selected demo"></div>
+                        <small>Selected</small>
+                    </li>
+                    <li key={"Sold"}>
+                        <div className="seat occupied demo"></div>
+                        <small>Sold</small>
+                    </li>
+                </ul>
+            </header>
+            <div className="cinemahall-container">
+                <div>
+                    <div className="screen"><p className="screentext">All eyes this side</p></div>
+                    <div className="seating-arrangement">
+                        {
+                            seats.map((seatrow, i) => {
+                                return <div className="row">
+                                    {
+                                        seatrow.map(seat => { return <Seat key={seat.id} seat={seat} alterAmount={alterAmount} selectedSeats={selectedSeats} /> })
+                                    }
+                                </div>
+                            })
+                        }
                     </div>
                 </div>
-
-                <div className="col-3 booking-actions">
-                    <form action="" method="" role="form" className="php-email-form">
-                        <p>Total Seats:</p>
-                        <input type="text" readOnly name="count" id="count" className="form-control" value="0" placeholder="Total seats" data-rule="minlen:1" data-msg="Please select at least 1 seat" />
-                        <div className="validate"></div>
-
-                        <p>Selected Seats:</p>
-                        <input type="text" readOnly name="seatsselected" id="seatsselected" className="form-control" placeholder="selected seats" data-rule="minlen:2" data-msg="Please select at least 1 seat" />
-                        <div className="validate"></div>
-
-                        <p>Total price:</p>
-                        <input type="text" readOnly name="price" id="price" className="form-control" placeholder="price" value="RS.0" />
-                        <button className="startpayment btn btn-info" >start payment</button>
-                    </form>
-                </div>
             </div>
+            <footer className="booking-page-footer row">
+                <button type="button" className="btn btn-danger btn-payment" onClick={() => { startPayment() }}>Pay Rs. {payable}</button>
+            </footer>
         </div>
     )
 }
 export default Seatbooking;
+
+function Seat({ seat, alterAmount, selectedSeats }) {
+    const [selectedState, setSelectedState] = useState(false);
+    const seatClass = (booked) => {
+        return booked ? "seat occupied" : selectedState ? "seat selected" : "seat";
+    }
+    const seatid = seat.id;
+    const seatSelectHandler = () => {
+        if (!seat.bookedFlag) {
+            alterAmount(!selectedState);
+            if (!selectedState) {
+                selectedSeats.current.push(seatid);
+            } else {
+                selectedSeats.current.splice(selectedSeats.current.indexOf(seatid), 1);
+            }
+            setSelectedState(!selectedState);
+        }
+    }
+    return (
+        <div className={seatClass(seat.bookedFlag)} onClick={() => { seatSelectHandler(seat) }}>{seat.pos}</div>
+    )
+}

@@ -1,11 +1,10 @@
-.form-control {
+.showFilter {
     width:10vw;
     height:7vh;
 }
-/* .show-filter{
-    border: 2px solid green;
-    border-radius: 10px;
-} */
+.show-filter-form {
+  margin:20px;
+}
 .show-filter-components{
     margin-left: 20px;
 }
@@ -14,6 +13,7 @@
     border: 2px solid green;
     border-radius: 10px;
     min-height: 60vh;
+    padding:10px
 }
 
 
@@ -33,8 +33,13 @@ Review
     right:5px
   }
 
-  .card-header{
+  .shows-card-header{
       background-color:linen;
+      padding: 10px;
+  }
+
+  .shows-card-body{
+    padding: 10px;
   }
   
   @media (max-width: 1200px) {

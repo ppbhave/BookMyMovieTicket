@@ -1,26 +1,20 @@
 package com.softwareDevelopment.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.softwareDevelopment.model.Film;
-import com.softwareDevelopment.model.Filters;
 import com.softwareDevelopment.repos.FilmRepo;
 
 
@@ -49,46 +43,28 @@ public class filmController {
 		ResponseEntity<Film> resp=new ResponseEntity<Film>(film,HttpStatus.OK);
 		return resp;
 	}
-	/*
-	@PostMapping("filtered/movies")
+
+	@PostMapping("admin/add/movie")
 	@ResponseBody
-	public List<Film> getMovieByFilter(@RequestBody Filters filters)
-	{
-		List<Film> AllFilms = filmrepo.findAll();
-		List<Film> filteredFilms = new ArrayList<>();
-		for(Film filmTest:AllFilms)
-		{
-			if ((filters.getsGenre()==null || filmTest.getsGenre().indexOf(filters.getsGenre())>=0) &&
-			(filters.getsLanguages()==null || filmTest.getsLanguages().indexOf(filters.getsLanguages())>=0) &&
-			(filters.getsScreenType()==null || filmTest.getsScreenType().indexOf(filters.getsScreenType())>=0))
-			{
-				filteredFilms.add(filmTest);
-			}
-		}
-		return filteredFilms;
-	}
-	
-	@PostMapping("/addMovie")
-	@ResponseBody
-	public String newMovie(@RequestBody Film m)
+	public HttpStatus newMovie(@RequestBody Film m)
 	{
 		filmrepo.save(m);
-		return "";
+		return HttpStatus.OK;
 	}
 	
-	@PutMapping("/updatemovie")
+	@PutMapping("admin/update/movie")
 	@ResponseBody
-	public String updatemovie(@RequestBody Film film)
+	public ResponseEntity<Film> updatemovie(@RequestBody Film film)
 	{
-		filmrepo.save(movie);
-		return "";
+		movie = filmrepo.save(film);
+		return new ResponseEntity<Film>(movie,HttpStatus.OK);
 	}
 	
-	@DeleteMapping("/deleteMovie")
+	@DeleteMapping("admin/delete/movie")
 	@ResponseBody
-	public String deleteMovie(@RequestBody Film film)
+	public HttpStatus deleteMovie(@RequestBody Film film)
 	{
-		filmrepo.delete(movie);
-		return "";
-	}   */
+		filmrepo.delete(film);
+		return HttpStatus.OK;
+	}   
 }

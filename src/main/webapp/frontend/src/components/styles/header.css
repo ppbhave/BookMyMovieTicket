@@ -3,6 +3,7 @@
     z-index: 997;
     padding: 5px 0;
     background: rgba(12, 42, 110, 0.9);
+    min-height:5%;
   }
   .section-heading{
     margin-top: 5%;
@@ -46,7 +47,7 @@
 --------------------------------------------------------------*/
 /* Desktop Navigation */
 .nav-menu > ul {
-    margin-left: 10px;
+    margin-left: 30px;
     padding: 0;
     list-style: none;
     display: flex;
@@ -71,7 +72,7 @@
     color: #ffc107;
   }
   
-  .nav-menu .drop-down ul {
+.drop-down ul {
     display: block;
     position: absolute;
     left: 15px;
@@ -80,7 +81,7 @@
     opacity: 0;
     visibility: hidden;
     padding: 10px 0;
-    background: #fff;
+    background:  rgba(42, 76, 156, 0.9);;
     box-shadow: 0px 0px 30px rgba(127, 137, 161, 0.25);
     transition: 0.3s;
   }
@@ -96,22 +97,9 @@
     position: relative;
   }
   
-  .nav-menu .drop-down ul a {
-    padding: 10px 20px;
-    font-size: 14px;
-    font-weight: 500;
-    text-transform: none;
-    color: #414c64;
-  }
   
   .nav-menu .drop-down ul a:hover, .nav-menu .drop-down ul .active > a, .nav-menu .drop-down ul li:hover > a {
     color: #ffc107;
-  }
-  
-  .nav-menu .drop-down > a:after {
-    content: "\ea99";
-    font-family: IcoFont;
-    padding-left: 5px;
   }
   
   .nav-menu .drop-down .drop-down ul {
@@ -124,18 +112,7 @@
     top: 0;
     left: 100%;
   }
-  
-  .nav-menu .drop-down .drop-down > a {
-    padding-right: 35px;
-  }
-  
-  .nav-menu .drop-down .drop-down > a:after {
-    content: "\eaa0";
-    font-family: IcoFont;
-    position: absolute;
-    right: 15px;
-  }
-  
+
   @media (max-width: 1366px) {
     .nav-menu .drop-down .drop-down ul {
       left: -90%;
@@ -143,9 +120,7 @@
     .nav-menu .drop-down .drop-down:hover > ul {
       left: -100%;
     }
-    .nav-menu .drop-down .drop-down > a:after {
-      content: "\ea9d";
-    }
+   
   }
   
   /* Mobile Navigation */
@@ -190,35 +165,12 @@
     list-style: none;
   }
   
-  .mobile-nav a {
-    display: block;
-    position: relative;
-    color: #414c64;
-    padding: 10px 20px;
-    font-weight: 500;
-    outline: none;
-  }
   
   .mobile-nav a:hover, .mobile-nav .active > a, .mobile-nav li:hover > a {
     color: #ffc107;
     text-decoration: none;
   }
-  
-  .mobile-nav .drop-down > a:after {
-    content: "\ea99";
-    font-family: IcoFont;
-    padding-left: 10px;
-    position: absolute;
-    right: 15px;
-  }
-  
-  .mobile-nav .active.drop-down > a:after {
-    content: "\eaa1";
-  }
-  
-  .mobile-nav .drop-down > a {
-    padding-right: 35px;
-  }
+
   
   .mobile-nav .drop-down ul {
     display: none;

@@ -1,6 +1,5 @@
 package com.softwareDevelopment.controller;
 
-import java.nio.file.attribute.UserPrincipalNotFoundException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +14,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.softwareDevelopment.model.Film;
-import com.softwareDevelopment.model.MessageHandler;
 import com.softwareDevelopment.model.Review;
+import com.softwareDevelopment.model.ReviewStats;
 import com.softwareDevelopment.repos.FilmRepo;
 import com.softwareDevelopment.repos.ReviewRepo;
 import com.softwareDevelopment.repos.UserRepo;
@@ -32,7 +31,27 @@ public class ReviewController {
 	@Autowired
 	UserRepo ur;
 	@Autowired
-	MessageHandler mh;
+	ReviewStats rstat;
+	
+	@GetMapping("/Reviews/stats/{id}")
+	@ResponseBody
+	public ResponseEntity<ReviewStats> getReviewStats(@PathVariable("id") int id)
+	{
+		Film movie = fr.findById(id).get();
+		if(movie == null) {
+			return new ResponseEntity<ReviewStats>(rstat, HttpStatus.BAD_REQUEST);
+		}
+		int total = reviewrepo.countByMovie(movie);
+		int [] ratingStats = new int[5];
+		for (int i=0; i<5; i++ ) {
+			ratingStats[i]=reviewrepo.countByMovieAndRating(movie,i+1);
+		}
+		rstat.setMovie(movie);
+		rstat.setRatingStat(ratingStats);
+		rstat.setTotalReviews(total);
+		return new ResponseEntity<ReviewStats>(rstat, HttpStatus.OK);
+		
+	}
 	
 	@GetMapping("/Reviews/{id}")
 	@ResponseBody
@@ -44,14 +63,12 @@ public class ReviewController {
 	
 	@PostMapping("/session/newReview")
 	@ResponseBody
-	public MessageHandler addNewReview(@RequestBody Review review)
+	public HttpStatus addNewReview(@RequestBody Review review)
 	{
 		review.setMovie(fr.findById(review.getMovie().getId()).get());
 		review.setUser(ur.findById(review.getUser().getId()).get());
 		review=reviewrepo.save(review);
-		mh.setHttpstatus(HttpStatus.OK);
-		mh.setMessage("The review is successfully submitted");
-		return mh;
+		return HttpStatus.OK;
 	}
 	
 	@DeleteMapping("/session/dropReview")

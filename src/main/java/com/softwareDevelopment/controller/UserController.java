@@ -96,12 +96,12 @@ public class UserController {
 	
 
 	@PostMapping("/userlogin")
-	public ResponseEntity<User> login(@RequestBody Account login) {
+	public ResponseEntity<Account> login(@RequestBody Account login) {
 		account = accountrepo.findByUsername(login.getsUsername());
 		if (account == null || !passwordEncoder.matches(login.getsPassword(), account.getsPassword())) {
-			return new ResponseEntity<User>(login.getUser(), HttpStatus.CONFLICT);
+			return new ResponseEntity<Account>(login, HttpStatus.UNAUTHORIZED);
 		} else {
-			return new ResponseEntity<User>(account.getUser(), HttpStatus.OK);
+			return new ResponseEntity<Account>(account, HttpStatus.OK);
 		}
 		
 	}

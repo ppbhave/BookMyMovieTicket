@@ -1,79 +1,74 @@
 import { useRef, useState } from "react";
- import "./styles/userRegistration.css"
-function UserRegistration() {
-    const newAccount = useRef({
-        user: {
-            sName: "",
-            sGender: "",
-            sEmail: "",
-            sPhone: ""
-        },
-        sUsername: "",
-        sPassword: "",
-        Role: "ROLE_USER"
-    });
+import {useForm } from "react-hook-form";
+import "./styles/profile.css";
+function Profile({session, setSession}) {
+    // const newAccount = useRef(session);
+    // const [newaccount, setNewAccount] = useState(session)
+    
+    const [changePassword, setchangePassword] = useState(true);
 
-    const [signupStep, setSignupStep] = useState(true);
     const step = (value) => {
-        setSignupStep(value)
+        setchangePassword(value)
     }
 
     return (
         <div className="signup-container page-content">
-            <h2 className="section-heading">Register</h2>
+            <h2 className="section-heading">Profile</h2>
             <div className="signup-forms">
-                {signupStep ? <PersonalInfo newAccount={newAccount} nextStep={step} /> : <SetCredentials newAccount={newAccount} nextStep={step} />}
+                {changePassword ? <PersonalInfo newUser={session.user} nextStep={step} /> : <ChangePassword newAccount={session} nextStep={step} />}
             </div>
 
         </div>
     )
 }
-export default UserRegistration;
+export default Profile;
 
-function PersonalInfo({ newAccount, nextStep }) {
-
+function PersonalInfo({ newUser, nextStep }) {
+    const { updatedUser, handleSubmit } = useForm();
     const [message, setMessage] = useState("");
 
-    const verifyUser = () => {
-        const requestOptions = {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(newAccount.current.user)
-        };
-        fetch('http://localhost:8080/register/user', requestOptions)
-            .then(resp => resp.json())
-            .then((statuscode) => {
-                if (statuscode === "OK") {
-                    nextStep(false)
-                }
-                else { setMessage("This email is already registered with another account. Try another email!") }
-            })
+    const updateProfile = (value) => {
+        // const requestOptions = {
+        //     method: 'POST',
+        //     headers: { 'Content-Type': 'application/json' },
+        //     body: JSON.stringify(newAccount.current.user)
+        // };
+        // fetch('http://localhost:8080/register/user', requestOptions)
+        //     .then(resp => resp.json())
+        //     .then((statuscode) => {
+        //         if (statuscode === "OK") {
+        //             nextStep(false)
+        //         }
+        //         else { setMessage("This email is already registered with another account. Try another email!") }
+        //     })
+        console.log(value);
+
     }
 
     return (
         <div className="col-md-4 personal-info registration form-card">
             <h4>Personal Information</h4>
-            <form className="signup-form">
+            <form className="signup-form" onSubmit={handleSubmit(updateProfile)}>
                 <div className="registration-form-group form-group">
                     <label for="name">Name</label>
-                    <input type="text" className="form-control" onChange={(e) => { newAccount.current.user.sName = e.target.value }} placeholder="Name" />
+                    <input type="text" defaultValue={newUser.sName} {...updatedUser("sName")} className="form-control" placeholder="Name" />
                 </div>
                 <div className="registration-form-group form-group">
                     <label for="phone">Phone Number</label>
-                    <input type="text" className="form-control" onChange={(e) => { newAccount.current.user.sPhone = e.target.value }} placeholder="+91" />
+                    <input type="text" {...updatedUser("sPhone")} defaultValue={newUser.sPhone} ref={updatedUser} className="form-control"  placeholder="+91" />
                 </div>
                 <div className="registration-form-group form-group">
                     <label for="email">Email</label>
-                    <input type="email" className="form-control" onChange={(e) => { newAccount.current.user.sEmail = e.target.value }} placeholder="example@example.com" />
+                    <input type="email" {...updatedUser("sEmail")} defaultValue={newUser.sEmail} ref={updatedUser} className="form-control"  placeholder="example@example.com" />
                     <div style={{ color: "#ac1414" }}>{message}</div>
                 </div>
-                <div className="registration-form-group form-group">
+                {/* <div className="registration-form-group form-group">
                     <label for="gender">Gender</label>
-                    <label className="radio-inline"><input type="radio" name="gender" value="Male" onClick={(e) => { newAccount.current.user.sGender = e.target.value }} />Male</label>
-                    <label className="radio-inline"><input type="radio" name="gender" value="Female" onClick={(e) => { newAccount.current.user.sGender = e.target.value }} />Female</label>
-                </div>
-
-                <button className="btn btn-primary" onClick={(e) => { e.preventDefault(); verifyUser() }}>Verify</button>
+                    <label className="radio-inline"><input type="radio" name="sGender" value="Male" ref={updatedUser}/>Male</label>
+                    <label className="radio-inline"><input type="radio" name="sGender" value="Female" ref={updatedUser}/>Female</label>
+                </div> */}
+                <button type="submit" className="btn btn-primary">submit</button>
+                {/* onClick={(e) => { e.preventDefault(); updateProfile() }} */}
                 <div className="dropdown-item">Already member? Sign in</div>
             </form>
         </div>
@@ -81,7 +76,7 @@ function PersonalInfo({ newAccount, nextStep }) {
 
 }
 
-function SetCredentials({ newAccount, nextStep }) {
+function ChangePassword({ newAccount, nextStep }) {
     const [warning, setWarning] = useState("");
     const register = () => {
         const requestOptions = {
@@ -95,7 +90,7 @@ function SetCredentials({ newAccount, nextStep }) {
     }
     return (
         <div className="col-md-4 set-credentials registration  form-card">
-            <div className="row"><div className="back-button"><i className="bx bx-arrow-back" onClick={()=>{nextStep(true)}}>Back</i></div> <br/><br/></div>
+            <div className="row"><div className="back-button"><i className="bx bx-arrow-back" onClick={() => { nextStep(true) }}>Back</i></div> <br /><br /></div>
             <h4>set login details</h4>
             <form className="signup-form">
                 <div className="registration-form-group form-group">

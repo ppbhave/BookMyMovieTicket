@@ -13,7 +13,14 @@ public class Theater {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	int id;
 	String sName;
-	String sGpsLocation; //google Map link
+	String sGpsLocation;
+	int jNoOfScreens;
+	public int getjNoOfScreens() {
+		return jNoOfScreens;
+	}
+	public void setjNoOfScreens(int jNoOfScreens) {
+		this.jNoOfScreens = jNoOfScreens;
+	}
 	public int getId() {
 		return id;
 	}

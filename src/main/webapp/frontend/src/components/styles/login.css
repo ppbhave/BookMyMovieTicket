@@ -1,21 +1,21 @@
-.signup-forms{
+.login-forms{
     display: flex;
     justify-content: center;
 }
-.registration {
+.login-form-card {
     border: 1px solid black;
     border-radius: 10px;
     background-color: #ffff;
     padding: 20px;
     align-items: center;
 }
-.registration-form-group {
+.login-form-group {
     justify-items: center;
 }
-.radio-inline {
+.radio-inline{
     margin-left: 10px;
 }
-.back-button {
+.back-button{
     float: left;
     color: darkgreen;
     margin: 10px;

@@ -1,0 +1,47 @@
+.show-container{
+    border: 2px solid green;
+    border-radius: 10px;
+    padding:20px
+    /* min-height: 60vh; */
+}
+
+.shows-card{
+    margin-top: 15px;
+  }
+.shows-date{
+    float:left;
+    left:5px
+}
+  .shows-rating{
+    float:right;
+    right:5px
+  }
+
+  .card-header{
+      background-color:linen;
+  }
+  
+  .slot{
+    margin-right:10px
+  }
+
+  .form-section {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+}
+.movie-form{
+    border: 2px solid #fff;
+    border-radius: 10px;
+    margin:2px;
+
+}
+.form-control-sm{
+    margin:20px
+}
+
+  @media (max-width: 1200px) {
+    .shows .shows-list {
+      padding: 0;
+    }
+  }
