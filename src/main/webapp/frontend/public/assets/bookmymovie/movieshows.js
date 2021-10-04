@@ -59,12 +59,12 @@ else ajaxCall();
 
 function ajaxCall() {    
       const getData = () => {
-        url='http://localhost:8080/movie/'+selected_movie_id;
+        url='https://localhost:8443/movie/'+selected_movie_id;
         sendHttpRequest('GET', url).then(movie => {
         buildMovieFilters(movie);        
         var language=document.getElementById("language").value;
         var format=document.getElementById("format").value;
-        url='http://localhost:8080/shows/'+movie.id+'/20210910/'+language+'/'+format;
+        url='https://localhost:8443/shows/'+movie.id+'/20210910/'+language+'/'+format;
         sendHttpRequest('GET', url).then(showsList => {
             buildPage(showsList);
             });
@@ -119,7 +119,7 @@ function ajaxCall() {
         var language=document.getElementById("language").value;
         var format=document.getElementById("format").value;
         var showdate=document.getElementById("show_date").value;
-        url='http://localhost:8080/shows/'+movie.id+'/'+showdate+'/'+language+'/'+format;
+        url='https://localhost:8443/shows/'+movie.id+'/'+showdate+'/'+language+'/'+format;
         sendHttpRequest('GET', url).then(showsList => {
             buildPage(showsList);
             });

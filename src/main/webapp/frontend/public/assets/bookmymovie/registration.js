@@ -52,7 +52,7 @@ const sendHttpRequest = (method, url, data) => {
     sPhone: document.getElementById("phone").value,
     jUserType:0
     };
-    sendHttpRequest('POST', 'http://localhost:8080/register', data)
+    sendHttpRequest('POST', 'https://localhost:8443/register', data)
       .then(responseData => {
         alert("Registration successfully completed.\nPlease proceed to set login id and password.");
         sessionStorage.setItem("registered_user_id",responseData.id);

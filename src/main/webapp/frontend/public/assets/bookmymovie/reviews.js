@@ -49,8 +49,8 @@ function ajaxCall(){
           movieBuilder(resp)
         });
       };
-    getData('http://localhost:8080//Reviews/'+selected_movie_id,1);
-    getData('http://localhost:8080/movie/'+selected_movie_id,2);
+    getData('https://localhost:8443//Reviews/'+selected_movie_id,1);
+    getData('https://localhost:8443/movie/'+selected_movie_id,2);
 };
 
 function reviewBuilder(reviewList){
@@ -94,7 +94,7 @@ function reviewBuilder(reviewList){
 }
 
 const sendData = (review) => {
-  sendHttpRequest('POST', 'http://localhost:8080/newReview', review)
+  sendHttpRequest('POST', 'https://localhost:8443/newReview', review)
     .then(responseData => {
       alert(responseData.message);
       location.reload();

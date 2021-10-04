@@ -30,7 +30,7 @@ function WriteReviewModal({ film, user }) {
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(newReview.current)
                 };
-                fetch('http://localhost:8080/session/newReview', requestOptions)
+                fetch('https://localhost:8443/session/newReview', requestOptions)
                     .then(resp => resp.json())
                     .then((statuscode) => statuscode === "OK" ? alert("successful") : alert("Something went wrong"))
             }

@@ -20,7 +20,7 @@ function Login({setSession}) {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(creds.current)
         };
-        fetch('http://localhost:8080/userlogin', requestOptions)
+        fetch('https://localhost:8443/userlogin', requestOptions)
             .then(resp => resp.json())
             .then((resp) => {
                 if(resp.id > 0) {

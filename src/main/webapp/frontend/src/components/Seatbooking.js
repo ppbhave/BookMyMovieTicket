@@ -20,7 +20,7 @@ function Seatbooking() {
     const selectedSeats = useRef([]);
 
     useEffect(() => {
-        fetch("http://localhost:8080/session/show/seats/" + bookingParams.showid)
+        fetch("https://localhost:8443/session/show/seats/" + bookingParams.showid)
             .then((response) => response.json())
             .then((data) => {
                 setScreen(data[0].screen)
@@ -39,7 +39,7 @@ function Seatbooking() {
                 }
                 setSeats(seatsarr);
             }).catch(err => console.log(err));
-        fetch("http://localhost:8080/movie/" + bookingParams.movieid)
+        fetch("https://localhost:8443/movie/" + bookingParams.movieid)
             .then((response) => response.json())
             .then((data) => {
                 setMovie(data)
@@ -61,7 +61,7 @@ function Seatbooking() {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(bookingReq)
         };
-        fetch("http://localhost:8080/session/seatbooking", requestOptions)
+        fetch("https://localhost:8443/session/seatbooking", requestOptions)
             .then((response) => 
             response.json())
             .then((data) => {

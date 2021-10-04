@@ -43,7 +43,7 @@ const getData = (callPath) => {
     });
   };
 
-  getData('http://localhost:8080/MyBookings/'+sessionStorage.getItem("session_user_id"));
+  getData('https://localhost:8443/MyBookings/'+sessionStorage.getItem("session_user_id"));
 
   const formBuilder=(BookingListByShow)=>{
       if(BookingListByShow==null || BookingListByShow.length==0){

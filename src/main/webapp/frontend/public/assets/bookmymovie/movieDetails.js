@@ -41,7 +41,7 @@ const sendHttpRequest = (method, url, data) => {
   };
 
   const getData = () => {
-    url='http://localhost:8080/movie/'+selected_movie_id;
+    url='https://localhost:8443/movie/'+selected_movie_id;
     sendHttpRequest('GET', url).then(movie => {
       createMovieDetail(movie)
     });

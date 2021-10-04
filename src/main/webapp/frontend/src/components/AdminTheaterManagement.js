@@ -8,7 +8,7 @@ function AdminTheaterManagement() {
     // const [MapContainerElement, setMapContainerElement] = useState(false);
     const [theaterSelected, setTheaterSelected] = useState({ id: 0, sName: "", sGpsLocation: "", jTotalSeats: 0 });
     const theaterListFetch = async () => {
-        fetch("http://localhost:8080/admin/theaters")
+        fetch("https://localhost:8443/admin/theaters")
             .then((response) => response.json())
             .then((data) => {
                 setTheaters(data);
@@ -116,7 +116,7 @@ function TheaterForm({ action, theaterSelected, formVisible, refresh }) {
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(theaterInForm.current)
                 };
-                fetch("http://localhost:8080/admin/add/theater", requestOptions)
+                fetch("https://localhost:8443/admin/add/theater", requestOptions)
                     .then((response) => response.json())
                     .then((data) => {
                         if (data === "OK") {
@@ -181,7 +181,7 @@ function ScreenForm({ theater, refresh }) {
             headers: { 'Content-Type': 'application/json' },
             body: screen
         };
-        fetch("http://localhost:8080/admin/seat/install/" + seating.current.rows + "/" + seating.current.cols, requestOptions)
+        fetch("https://localhost:8443/admin/seat/install/" + seating.current.rows + "/" + seating.current.cols, requestOptions)
             .then((response) => response.json())
             .then((data) => {
                 if (data > 0) {
@@ -197,7 +197,7 @@ function ScreenForm({ theater, refresh }) {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(seatInForm.current)
             };
-            fetch("http://localhost:8080/admin/add/screen", requestOptions)
+            fetch("https://localhost:8443/admin/add/screen", requestOptions)
                 .then((response) => response.json())
                 .then((data) => {
                     if (data.id > 0) {

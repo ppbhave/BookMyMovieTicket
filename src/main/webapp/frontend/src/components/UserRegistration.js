@@ -40,7 +40,7 @@ function PersonalInfo({ newAccount, nextStep }) {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(newAccount.current.user)
         };
-        fetch('http://localhost:8080/register/user', requestOptions)
+        fetch('https://localhost:8443/register/user', requestOptions)
             .then(resp => resp.json())
             .then((statuscode) => {
                 if (statuscode === "OK") {
@@ -89,7 +89,7 @@ function SetCredentials({ newAccount, nextStep }) {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(newAccount.current)
         };
-        fetch('http://localhost:8080/register/', requestOptions)
+        fetch('https://localhost:8443/register/', requestOptions)
             .then(resp => resp.json())
             .then((statuscode) => statuscode === "OK" ? alert("successful") : setWarning("Username not available. Try another Uusername!"))
     }

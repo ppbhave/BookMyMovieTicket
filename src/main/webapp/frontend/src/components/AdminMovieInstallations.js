@@ -6,7 +6,7 @@ function AdminMovieInstallations() {
     const [action, setAction] = useState("");
     const [formElement, showFormElement] = useState(false);
     const installedFetch = async () => {
-        fetch("http://localhost:8080/admin/movies/screens/installed")
+        fetch("https://localhost:8443/admin/movies/screens/installed")
             .then((response) => response.json())
             .then((data) => {
                 setInstallations(data);
@@ -69,7 +69,7 @@ function EstablishmentTableRow({ establishment, index, formEnvoke, refresh }) {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(m2s)
         };
-        fetch("http://localhost:8080/admin/delete/installation", requestOptions)
+        fetch("https://localhost:8443/admin/delete/installation", requestOptions)
             .then((response) => response.json())
             .then((data) => {
                 if (data === "OK") {
@@ -115,7 +115,7 @@ function EstablishmentForm({ action, formVisible, refresh }) {
     }, [selectedMovie])
 
     useEffect(() => {
-        fetch("http://localhost:8080/movies")
+        fetch("https://localhost:8443/movies")
             .then((response) => response.json())
             .then((data) => {
                 setSelectedMovie(data[0]);
@@ -123,7 +123,7 @@ function EstablishmentForm({ action, formVisible, refresh }) {
                 setMovies(data);
 
             });
-        fetch("http://localhost:8080/screens")
+        fetch("https://localhost:8443/screens")
             .then((response) => response.json())
             .then((data) => {
                 setSereens(data);
@@ -148,7 +148,7 @@ function EstablishmentForm({ action, formVisible, refresh }) {
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(m2sInForm.current)
                 };
-                fetch("http://localhost:8080/admin/add/installation", requestOptions)
+                fetch("https://localhost:8443/admin/add/installation", requestOptions)
                     .then((response) => response.json())
                     .then((data) => {
                         if (data === "OK") {

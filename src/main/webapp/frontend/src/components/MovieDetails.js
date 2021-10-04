@@ -9,7 +9,7 @@ function MovieDetails() {
         movie: { id: 0, sMovieName: "", sGenre: "", sScreenType: "", dReleaseDate: "", sDuration: "", sDescription: "", imgPath: "", sCast: "", sPosterLink: "", sLanguages: "", sTrailer: "" }
     });
     useEffect(() => {
-        fetch("http://localhost:8080/Reviews/stats/" + movieId.id)
+        fetch("https://localhost:8443/Reviews/stats/" + movieId.id)
             .then((response) => response.json())
             .then((data) => {
                 setReviewStat(data)

@@ -40,7 +40,7 @@ const sendHttpRequest = (method, url, data) => {
       username: document.getElementById("username").value,
       password: document.getElementById("password").value
     }
-    sendHttpRequest('POST', 'http://localhost:8080/login', data)
+    sendHttpRequest('POST', 'https://localhost:8443/login', data)
       .then(user => {
       if(user==null){
           alert("Username or password is incorrect.");

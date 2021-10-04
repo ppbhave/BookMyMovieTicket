@@ -45,12 +45,12 @@ function sendHttpRequest (method, url, data){
    
   function ajaxCall() {
     const getData = () => {
-      url='http://localhost:8080/movie/'+selected_movie_id;
+      url='https://localhost:8443/movie/'+selected_movie_id;
       sendHttpRequest('GET', url).then(movie => {
       document.getElementById("movie_name").innerHTML=movie.sMovieName;  
       });  
 
-      url='http://localhost:8080/show/seats/'+selected_show_id;
+      url='https://localhost:8443/show/seats/'+selected_show_id;
       sendHttpRequest('GET', url).then(seatsList => {
           buildPage(seatsList);
           });      
@@ -59,7 +59,7 @@ function sendHttpRequest (method, url, data){
   }
 
   const sendData = (bookings) => {
-    sendHttpRequest('POST', 'http://localhost:8080/seatbooking', bookings)
+    sendHttpRequest('POST', 'https://localhost:8443/seatbooking', bookings)
     .then(responseData => {
         alert(responseData.message);
         window.location="myBookings.html";

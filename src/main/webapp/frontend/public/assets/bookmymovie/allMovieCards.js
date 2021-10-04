@@ -33,7 +33,7 @@ const sendHttpRequest = (method, url, data) => {
   };
 
   const getData = (language,format,genre) => {
-    var url="http://localhost:8080?language="+language+"&format="+format+"&genre="+genre;
+    var url="https://localhost:8443?language="+language+"&format="+format+"&genre="+genre;
     sendHttpRequest('GET', url).then(responseData => {
       createMovieCards(responseData)
     });

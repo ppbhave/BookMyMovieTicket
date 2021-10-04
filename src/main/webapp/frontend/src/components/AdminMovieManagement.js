@@ -5,7 +5,7 @@ function AdminMovieManagement() {
     const [action, setAction] = useState("");
     const [formElement, showFormElement] = useState(false);
     const moviesFetch = async () => {
-        fetch("http://localhost:8080/movies")
+        fetch("https://localhost:8443/movies")
             .then((response) => response.json())
             .then((data) => {
                 setMovies(data);
@@ -133,7 +133,7 @@ function MovieForm({ action, formVisible, refresh }) {
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(movieInForm.current)
                 };
-                fetch("http://localhost:8080/admin/add/movie", requestOptions)
+                fetch("https://localhost:8443/admin/add/movie", requestOptions)
                     .then((response) => response.json())
                     .then((data) => {
                         if (data === "OK") {

@@ -41,7 +41,7 @@ function AdminShowManagement() {
         return year + "-" + month + "-" + date + "T" + "00:00:00"
     }
     const installedFetch = async () => {
-        fetch("http://localhost:8080/screens")
+        fetch("https://localhost:8443/screens")
             .then((response) => response.json())
             .then((data) => {
                 setScreens(data);
@@ -72,7 +72,7 @@ function AdminShowManagement() {
 
     const pageRefresh=()=>{
         if (screen > -1) {
-            fetch("http://localhost:8080/admin/screen/shows/" + dateFormattedString(startDate) + "/" + dateFormattedString(endDate) + "/" + screens[screen].id)
+            fetch("https://localhost:8443/admin/screen/shows/" + dateFormattedString(startDate) + "/" + dateFormattedString(endDate) + "/" + screens[screen].id)
                 .then((response) => response.json())
                 .then((data) => {
                     setShows(data);
@@ -233,7 +233,7 @@ function ShowForm({ showInForm, action, formVisible, refresh }) {
 
     const saveSlot = () => {
         const method = action === "Create" ? 'POST' : 'PUT';
-        const url =   action === "Create" ? 'http://localhost:8080/admin/show/addition' : 'http://localhost:8080/admin/show/update';
+        const url =   action === "Create" ? 'https://localhost:8443/admin/show/addition' : 'https://localhost:8443/admin/show/update';
         if (formValidation(showInForm.current)) {
             const requestOptions = {
                 method: method,
@@ -259,7 +259,7 @@ function ShowForm({ showInForm, action, formVisible, refresh }) {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ id: showInForm.current.id })
         };
-        fetch("http://localhost:8080/admin/show/delete", requestOptions)
+        fetch("https://localhost:8443/admin/show/delete", requestOptions)
             .then((response) => response.json())
             .then((data) => {
                 if (data === "OK") {

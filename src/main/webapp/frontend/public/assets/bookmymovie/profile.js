@@ -43,7 +43,7 @@ if(sessionStorage.getItem("session_user_id")==undefined){
         });
       };
 
-    getData('http://localhost:8080/user/'+sessionStorage.getItem("session_user_id"));
+    getData('https://localhost:8443/user/'+sessionStorage.getItem("session_user_id"));
 
     const sendData = () => {
         var genderRadios=document.getElementsByName("Gender");
@@ -62,7 +62,7 @@ if(sessionStorage.getItem("session_user_id")==undefined){
       sPhone: document.getElementById("phone").value,
       jUserType:0
       };
-      sendHttpRequest('PUT', 'http://localhost:8080/Profile/changes', data)
+      sendHttpRequest('PUT', 'https://localhost:8443/Profile/changes', data)
         .then(responseData => {
           alert("Information successfully edited.");
           location.reload();

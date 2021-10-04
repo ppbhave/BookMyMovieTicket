@@ -16,7 +16,7 @@ function MovieShows() {
     const user = JSON.parse(sessionStorage.getItem("sessionUser"));
 
     useEffect(() => {
-        fetch("http://localhost:8080/movie/" + movieId.id)
+        fetch("https://localhost:8443/movie/" + movieId.id)
             .then((response) => response.json())
             .then((data) => {
                 setMovie(data);
@@ -39,7 +39,7 @@ function MovieShows() {
 
     useEffect(() => {
         if (language.length > 0 && format.length > 0)
-            fetch("http://localhost:8080/shows/" + movieId.id + "/" + dateFormattedString(showDate) + "/" + language + "/" + format)
+            fetch("https://localhost:8443/shows/" + movieId.id + "/" + dateFormattedString(showDate) + "/" + language + "/" + format)
                 .then((response) => response.json())
                 .then((data) => {
                     setShows(data);

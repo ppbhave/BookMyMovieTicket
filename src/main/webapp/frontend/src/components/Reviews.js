@@ -17,12 +17,12 @@ function Reviews() {
     });
     const [reviewList, setReviewList] = useState([]);
     useEffect(() => {
-        fetch("http://localhost:8080/Reviews/stats/" + movieId.id)
+        fetch("https://localhost:8443/Reviews/stats/" + movieId.id)
             .then((response) => response.json())
             .then((data) => {
                 setReviewStat(data)
             });
-        fetch("http://localhost:8080/Reviews/" + movieId.id)
+        fetch("https://localhost:8443/Reviews/" + movieId.id)
             .then((response) => response.json())
             .then((data) => {
                 setReviewList(data);

@@ -44,7 +44,7 @@ if(sessionStorage.getItem("session_user_id")==undefined){
       sUsername: document.getElementById("username").value,
       sPassword: document.getElementById("password").value
       };
-      sendHttpRequest('POST', 'http://localhost:8080/credentials', data)
+      sendHttpRequest('POST', 'https://localhost:8443/credentials', data)
         .then(resp => {
             if(resp.message=="OK"){
                 alert("Login created successfully.");
@@ -62,7 +62,7 @@ if(sessionStorage.getItem("session_user_id")==undefined){
     var userdata;
 
     const getData = () => {
-        sendHttpRequest('GET', 'http://localhost:8080/user/'+registered_user_id).then(registered_user => {
+        sendHttpRequest('GET', 'https://localhost:8443/user/'+registered_user_id).then(registered_user => {
             userdata=registered_user;
         });
       };

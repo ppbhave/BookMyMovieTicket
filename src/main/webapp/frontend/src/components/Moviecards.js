@@ -11,7 +11,7 @@ function MovieCards() {
     const [formatFiltered, setFormat] = useState("none");
     const history = useHistory();
     const movieCardFetch = async () => {
-        fetch("http://localhost:8080/movies")
+        fetch("https://localhost:8443/movies")
             .then((response) => response.json())
             .then((data) => {
                 let langArr = [];
