@@ -56,40 +56,47 @@ function MovieCards() {
                     </div>
                 </div>
 
-                <div className="col-lg-3 col-md-3 moviecards-filter">
-                    <section className="area-title">Filters</section>
-                    <form>
-                        <div className="form-group col-md-2">
-                            <label htmlFor="language">Language</label>
-                            <select id="language" className="form-control filter"
-                                onChange={(e) => setlanguage(e.target.value)}>
-                                <option value="none">Any</option>
-                                {
-                                    languageArr.map(lang => { return <option key={lang} value={lang}>{lang}</option> })
-                                }
-                            </select>
+                <div className="col-lg-3 col-md-3 ">
+                    <div class="card moviecards-filter">
+                        <div class="card-header moviecards-filter-header">
+                            Filters
                         </div>
-                        <div className="form-group col-md-2">
-                            <label htmlFor="format">Format</label>
-                            <select id="format" className="form-control filter"
-                                onChange={(e) => setFormat(e.target.value)}>
-                                <option value="none">Any</option>
-                                {
-                                    formatArr.map(screen => { return <option key={screen} value={screen}>{screen}</option> })
-                                }
-                            </select>
+                        <div class="card-body">
+                            <form className="movie-filters-form">
+                                <div className="form-group col-md-2 moviefilter-formgrp">
+                                    <label htmlFor="language">Language</label>
+                                    <select id="language" className="form-control filter"
+                                        onChange={(e) => setlanguage(e.target.value)}>
+                                        <option value="none">Any</option>
+                                        {
+                                            languageArr.map(lang => { return <option key={lang} value={lang}>{lang}</option> })
+                                        }
+                                    </select>
+                                </div>
+                                <div className="form-group col-md-2 moviefilter-formgrp">
+                                    <label htmlFor="format">Format</label>
+                                    <select id="format" className="form-control filter"
+                                        onChange={(e) => setFormat(e.target.value)}>
+                                        <option value="none">Any</option>
+                                        {
+                                            formatArr.map(screen => { return <option key={screen} value={screen}>{screen}</option> })
+                                        }
+                                    </select>
+                                </div>
+                                <div className="form-group col-md-2 moviefilter-formgrp">
+                                    <label htmlFor="genre">Genre</label>
+                                    <select id="genre" className="form-control filter"
+                                        onChange={(e) => setGenre(e.target.value)}>
+                                        <option value="none">Any</option>
+                                        {
+                                            genreArr.map(genre => { return <option key={genre} value={genre}>{genre}</option> })
+                                        }
+                                    </select>
+                                </div>
+                            </form>
                         </div>
-                        <div className="form-group col-md-2">
-                            <label htmlFor="genre">Genre</label>
-                            <select id="genre" className="form-control filter"
-                                onChange={(e) => setGenre(e.target.value)}>
-                                <option value="none">Any</option>
-                                {
-                                    genreArr.map(genre => { return <option key={genre} value={genre}>{genre}</option> })
-                                }
-                            </select>
-                        </div>
-                    </form>
+                    </div>
+
                 </div>
             </div>
         </div>
@@ -101,8 +108,8 @@ function MovieCard({ movie, history }) {
         history.push(`/movie/${id}`);
     }
     return (
-        <div className="d-flex align-items-stretch movie-card-col movie-card-list-col" onClick={()=>{movieDetails(movie.id)}}>
-            <div className="movie-card">
+        <div className="d-flex align-items-stretch movie-card-col movie-card-list-col" onClick={() => { movieDetails(movie.id) }}>
+            <div className="movie-list-card">
                 <div className="movie-poster">
                     <img className="img-fluid" src={movie.sPosterLink} alt={movie.sMovieName} />
                 </div>
