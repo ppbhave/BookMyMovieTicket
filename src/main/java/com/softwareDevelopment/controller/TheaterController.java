@@ -53,17 +53,21 @@ public class TheaterController {
 	
 	@PutMapping("admin/update/theater")
 	@ResponseBody
-	public ResponseEntity<Theater> updateTheater(@RequestBody Theater theater)
+	public HttpStatus updateTheater(@RequestBody Theater theater)
 	{
 		theater = theaterrepo.save(theater);
-		return new ResponseEntity<Theater>(theater,HttpStatus.OK);
+		return HttpStatus.OK;
 	}
 	
 	@DeleteMapping("admin/delete/theater")
 	@ResponseBody
 	public HttpStatus deleteTheater(@RequestBody Theater theater)
 	{
-		theaterrepo.delete(theater);
+		try{
+			theaterrepo.delete(theater);
+		} catch(Exception e) {
+			return HttpStatus.BAD_REQUEST;
+		}
 		return HttpStatus.OK;
 	}   
 

@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.softwareDevelopment.model.Film;
 import com.softwareDevelopment.repos.FilmRepo;
 
-
 @Controller
 public class filmController {
 
@@ -25,46 +24,45 @@ public class filmController {
 	FilmRepo filmrepo;
 	@Autowired
 	Film movie;
-	
-	@GetMapping(value={"/movies","/"})
+
+	@GetMapping(value = { "/movies", "/" })
 	@ResponseBody
-	public ResponseEntity<List<Film>> home()
-	{
-		List<Film> films =filmrepo.findAll();
-		ResponseEntity<List<Film>> listoffilms=new ResponseEntity<List<Film>>(films,HttpStatus.OK);
+	public ResponseEntity<List<Film>> home() {
+		List<Film> films = filmrepo.findAll();
+		ResponseEntity<List<Film>> listoffilms = new ResponseEntity<List<Film>>(films, HttpStatus.OK);
 		return listoffilms;
 	}
-	
+
 	@GetMapping("/movie/{id}")
 	@ResponseBody
-	public ResponseEntity<Film> getMovieById(@PathVariable int id)
-	{
-		Film film=filmrepo.findById(id).orElseThrow();
-		ResponseEntity<Film> resp=new ResponseEntity<Film>(film,HttpStatus.OK);
+	public ResponseEntity<Film> getMovieById(@PathVariable int id) {
+		Film film = filmrepo.findById(id).orElseThrow();
+		ResponseEntity<Film> resp = new ResponseEntity<Film>(film, HttpStatus.OK);
 		return resp;
 	}
 
 	@PostMapping("admin/add/movie")
 	@ResponseBody
-	public HttpStatus newMovie(@RequestBody Film m)
-	{
+	public HttpStatus newMovie(@RequestBody Film m) {
 		filmrepo.save(m);
 		return HttpStatus.OK;
 	}
-	
+
 	@PutMapping("admin/update/movie")
 	@ResponseBody
-	public ResponseEntity<Film> updatemovie(@RequestBody Film film)
-	{
+	public HttpStatus updatemovie(@RequestBody Film film) {
 		movie = filmrepo.save(film);
-		return new ResponseEntity<Film>(movie,HttpStatus.OK);
+		return HttpStatus.OK;
 	}
-	
+
 	@DeleteMapping("admin/delete/movie")
 	@ResponseBody
-	public HttpStatus deleteMovie(@RequestBody Film film)
-	{
-		filmrepo.delete(film);
+	public HttpStatus deleteMovie(@RequestBody Film film) {
+		try {
+			filmrepo.delete(film);
+		} catch (Exception e) {
+			return HttpStatus.BAD_REQUEST;
+		}
 		return HttpStatus.OK;
-	}   
+	}
 }

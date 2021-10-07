@@ -1,6 +1,6 @@
-var selected_movie_id=sessionStorage.getItem("selected_movie_id");
+var selected_movie_id=localStorage.getItem("selected_movie_id");
 
-if(sessionStorage.getItem("session_user_id")==undefined){
+if(localStorage.getItem("session_user_id")==undefined){
   document.getElementById("logged-in").style.visibility="hidden";
 }
 else {
@@ -180,8 +180,8 @@ function ajaxCall() {
       }
 
       $(".btn-outline-info").on("click",function(){
-        sessionStorage.setItem("selected_show_id", this.show_id);
-        if(sessionStorage.getItem("session_user_id")==undefined){
+        localStorage.setItem("selected_show_id", this.show_id);
+        if(localStorage.getItem("session_user_id")==undefined){
           window.location="login.html";
         }
         else {
@@ -191,7 +191,7 @@ function ajaxCall() {
 
     }
     $("#logout").on("click",function(){
-      sessionStorage.removeItem("session_user_id");
+      localStorage.removeItem("session_user_id");
       location.reload();
     });
   

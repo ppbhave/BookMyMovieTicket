@@ -1,8 +1,8 @@
-var selected_movie_id=sessionStorage.getItem("selected_movie_id");
-if(sessionStorage.getItem("session_user_id")==undefined)
+var selected_movie_id=localStorage.getItem("selected_movie_id");
+if(localStorage.getItem("session_user_id")==undefined)
   document.getElementById("logged-in").style.visibility="hidden";
 else document.getElementById("login").style.visibility="hidden";
-var selected_movie_id=sessionStorage.getItem("selected_movie_id");
+var selected_movie_id=localStorage.getItem("selected_movie_id");
 
 const sendHttpRequest = (method, url, data) => {
   const promise = new Promise((resolve, reject) => {
@@ -110,7 +110,7 @@ function movieBuilder(movie){
 }
 
 $("#submit").on("click",function(){
-  if(!sessionStorage.getItem("session_user_id")){
+  if(!localStorage.getItem("session_user_id")){
     window.location="login.html";
   }
   var rating=document.getElementById("Rating").value;
@@ -121,7 +121,7 @@ $("#submit").on("click",function(){
         id: selected_movie_id
     },
     user: {
-        id: sessionStorage.getItem("session_user_id"),
+        id: localStorage.getItem("session_user_id"),
         jUserType: 0
     },
     sReview: review,
@@ -130,6 +130,6 @@ $("#submit").on("click",function(){
   });
 }); 
 $("#logout").on("click",function(){
-  sessionStorage.removeItem("session_user_id");
+  localStorage.removeItem("session_user_id");
   location.reload();
 });

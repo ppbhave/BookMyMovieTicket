@@ -2,7 +2,7 @@ import { useRef } from "react";
 import { useHistory } from "react-router";
 import { Link } from "react-router-dom";
 import "./styles/login.css"
-function Login({setSession}) {
+function Login({ setSession }) {
     const creds = useRef({
         sUsername: "",
         sPassword: ""
@@ -23,19 +23,19 @@ function Login({setSession}) {
         fetch('https://localhost:8443/userlogin', requestOptions)
             .then(resp => resp.json())
             .then((resp) => {
-                if(resp.id > 0) {
+                if (resp.id > 0) {
                     setSession(resp);
-                    sessionStorage.setItem("sessionUser",JSON.stringify(resp))
-                    if(resp.role ==="ROLE_USER" ) {
+
+                    if (resp.role === "ROLE_USER") {
                         history.goBack();
-                    } else if(resp.role ==="ROLE_ADMIN"){
+                    } else if (resp.role === "ROLE_ADMIN") {
                         historyPush("/admin/movies")
                     }
                 }
             })
     }
     return (
-        <div className="login-forms page-content" style={{margin:"20vh"}}>
+        <div className="login-forms page-content" style={{ margin: "20vh" }}>
             <div className="col-md-4 login-form-card">
                 <h4>Login</h4>
                 <form className="login-form">

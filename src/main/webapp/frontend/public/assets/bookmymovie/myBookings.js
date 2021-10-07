@@ -1,4 +1,4 @@
-if(sessionStorage.getItem("session_user_id")==undefined){
+if(localStorage.getItem("session_user_id")==undefined){
     document.getElementById("logged-in").style.visibility="hidden";
     document.getElementById("alt").innerHTML="Invalid page";
     document.getElementById("review").style.visibility="hidden";
@@ -43,7 +43,7 @@ const getData = (callPath) => {
     });
   };
 
-  getData('https://localhost:8443/MyBookings/'+sessionStorage.getItem("session_user_id"));
+  getData('https://localhost:8443/MyBookings/'+localStorage.getItem("session_user_id"));
 
   const formBuilder=(BookingListByShow)=>{
       if(BookingListByShow==null || BookingListByShow.length==0){
@@ -79,7 +79,7 @@ const getData = (callPath) => {
   }
 
   $("#logout").on("click",function(){
-    sessionStorage.removeItem("session_user_id");
+    localStorage.removeItem("session_user_id");
     location.reload();
   });
 

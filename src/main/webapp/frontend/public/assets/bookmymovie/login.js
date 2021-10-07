@@ -1,4 +1,4 @@
-if(sessionStorage.getItem("session_user_id")==undefined){
+if(localStorage.getItem("session_user_id")==undefined){
     document.getElementById("logged-in").style.visibility="hidden";
 }
 else{
@@ -45,7 +45,7 @@ const sendHttpRequest = (method, url, data) => {
       if(user==null){
           alert("Username or password is incorrect.");
         }else{
-          sessionStorage.setItem("session_user_id",user.id);
+          localStorage.setItem("session_user_id",user.id);
           if(user.jUserType==1){
             alert("Welcome Admin");
             //window.location="movies.html";
@@ -62,6 +62,6 @@ const sendHttpRequest = (method, url, data) => {
   };
 document.getElementById("submit").addEventListener("click",sendData);
 $("#logout").on("click",function(){
-  sessionStorage.removeItem("session_user_id");
+  localStorage.removeItem("session_user_id");
   location.reload();
 });

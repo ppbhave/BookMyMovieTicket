@@ -1,4 +1,4 @@
-if(sessionStorage.getItem("session_user_id")==undefined){
+if(localStorage.getItem("session_user_id")==undefined){
     document.getElementById("logged-in").style.visibility="hidden";
     document.getElementById("alt").innerHTML="Invalid page";
     document.getElementById("registration-form").style.visibility="hidden";
@@ -43,7 +43,7 @@ if(sessionStorage.getItem("session_user_id")==undefined){
         });
       };
 
-    getData('https://localhost:8443/user/'+sessionStorage.getItem("session_user_id"));
+    getData('https://localhost:8443/user/'+localStorage.getItem("session_user_id"));
 
     const sendData = () => {
         var genderRadios=document.getElementsByName("Gender");
@@ -55,7 +55,7 @@ if(sessionStorage.getItem("session_user_id")==undefined){
         }
 
       data={
-      id:sessionStorage.getItem("session_user_id"),
+      id:localStorage.getItem("session_user_id"),
       sName: document.getElementById("name").value,
       sGender: genderVal,
       sEmail: document.getElementById("email").value,
@@ -86,7 +86,7 @@ if(sessionStorage.getItem("session_user_id")==undefined){
   }
 
   $("#logout").on("click",function(){
-    sessionStorage.removeItem("session_user_id");
+    localStorage.removeItem("session_user_id");
     location.reload();
   });
   

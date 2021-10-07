@@ -1,8 +1,8 @@
 var registered_user_id;
-if(sessionStorage.getItem("session_user_id")==undefined){
+if(localStorage.getItem("session_user_id")==undefined){
     document.getElementById("logged-in").style.visibility="hidden";
-    if(sessionStorage.getItem("registered_user_id")!=undefined){
-         registered_user_id=sessionStorage.getItem("registered_user_id");
+    if(localStorage.getItem("registered_user_id")!=undefined){
+         registered_user_id=localStorage.getItem("registered_user_id");
     }
   }
   else {
@@ -48,7 +48,7 @@ if(sessionStorage.getItem("session_user_id")==undefined){
         .then(resp => {
             if(resp.message=="OK"){
                 alert("Login created successfully.");
-                sessionStorage.removeItem("registered_user_id");
+                localStorage.removeItem("registered_user_id");
                 window.location="login.html";
             }else if(resp.message=="CONFLICT"){
                 alert("Username is not available");

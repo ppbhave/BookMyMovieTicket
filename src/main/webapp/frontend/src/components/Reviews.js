@@ -2,19 +2,19 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import "./styles/reviews.css"
 import WriteReviewModal from "./WriteReviewModal"
-function Reviews() {
+function Reviews(user) {
     const movieId = useParams();
-    const user = {
-        id: 2,
-        sName: "Pranav Yadav",
-        sGender: "Male",
-        sEmail: "pranavpb.a97@gmail.com",
-        sPhone: "9370867080"
-    }
     const [reviewStat, setReviewStat] = useState({
         totalReviews: 0, ratingStat: [],
         movie: { id: 0, sMovieName: "", sGenre: "", sScreenType: "", dReleaseDate: "", sDuration: "", sDescription: "", imgPath: "", sCast: "", sPosterLink: "", sLanguages: "", sTrailer: "" }
     });
+    const avgRating=(reviewStat)=>{
+            let avgR=0;
+            reviewStat.ratingStat.forEach(stars => {
+                avgR+=stars;
+            });
+            return avgR/reviewStat.totalReviews;
+    }
     const [reviewList, setReviewList] = useState([]);
     useEffect(() => {
         fetch("https://localhost:8443/Reviews/stats/" + movieId.id)
@@ -56,7 +56,7 @@ function Reviews() {
                     <section>{reviewStat.movie.sMovieName}</section>
                     <h4>Viewer Reviews</h4>
                     <section style={{ display: "flex", justifyContent: "center" }}>
-                        <section><i className="bx bxs-star" style={{ color: "rgb(245, 197, 24)" }}></i>{reviewStat.totalReviews} avg rating</section>
+                        <section><i className="bx bxs-star" style={{ color: "rgb(245, 197, 24)" }}></i>{avgRating(reviewStat)} avg rating</section>
                         &emsp;<section>{reviewStat.totalReviews} reviews&nbsp;</section>
                     </section>
                     <button className="write-review-button" data-toggle="modal" data-target="#writeReview"><i className="bx bx-plus-circle">Add your review</i></button>

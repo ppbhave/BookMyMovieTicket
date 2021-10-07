@@ -1,5 +1,5 @@
-sessionStorage.removeItem("selected_movie_id");
-if(sessionStorage.getItem("session_user_id")==undefined)
+localStorage.removeItem("selected_movie_id");
+if(localStorage.getItem("session_user_id")==undefined)
   document.getElementById("logged-in").style.visibility="hidden";
 else document.getElementById("login").style.visibility="hidden";
 
@@ -92,13 +92,13 @@ const sendHttpRequest = (method, url, data) => {
          });
          
         $(".movie-card-col").on("click",function(){
-          sessionStorage.setItem("selected_movie_id", this.movie.id);
+          localStorage.setItem("selected_movie_id", this.movie.id);
           window.location="moviesDetails.html";
         }); 
     }
 
     $("#logout").on("click",function(){
-      sessionStorage.removeItem("session_user_id");
+      localStorage.removeItem("session_user_id");
       location.reload();
     });
 

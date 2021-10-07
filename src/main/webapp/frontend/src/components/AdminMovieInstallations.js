@@ -2,7 +2,15 @@ import { useEffect, useRef, useState } from "react";
 import "./styles/adminInstallation.css"
 
 function AdminMovieInstallations() {
+    const defaultM2S = {
+        id: 0,
+        movie: { sLanguages: "", sScreenType: "" },
+        screen: {},
+        sLanguage: "",
+        sScreenType: ""
+    };
     const [installations, setInstallations] = useState([]);
+    const [m2s, setm2s] = useState(defaultM2S);
     const [action, setAction] = useState("");
     const [formElement, showFormElement] = useState(false);
     const installedFetch = async () => {
@@ -27,7 +35,7 @@ function AdminMovieInstallations() {
     return (
         <div className="admin-page-container">
             <div className="row">
-                <button type="button" className="btn btn-sm btn-outline-primary" onClick={() => { formEnvoke("Create") }}>Create Establishment</button>
+                <button type="button" className="btn btn-sm btn-outline-primary" onClick={() => { setm2s(defaultM2S); formEnvoke("Create") }}>Create Establishment</button>
             </div>
 
             <div className="row container">
@@ -46,7 +54,7 @@ function AdminMovieInstallations() {
                             <tbody>
                                 {
                                     installations.map((m2s, i) => {
-                                        return <EstablishmentTableRow key={m2s.id} establishment={m2s} index={i} formEnvoke={formEnvoke} refresh ={installedFetch}/>
+                                        return <EstablishmentTableRow key={m2s.id} establishment={m2s} index={i} formEnvoke={formEnvoke} refresh={installedFetch} setm2s={setm2s} />
                                     })
                                 }
                             </tbody>
@@ -54,7 +62,7 @@ function AdminMovieInstallations() {
                     </div>
                 </div>
                 <div className="form-section col-lg-5">
-                    {formElement ? <EstablishmentForm action={action} formVisible={showFormElement} refresh ={installedFetch} /> : <div></div>}
+                    {formElement ? <EstablishmentForm m2s={m2s} action={action} formVisible={showFormElement} refresh={installedFetch} /> : <div></div>}
                 </div>
             </div>
         </div>
@@ -62,7 +70,7 @@ function AdminMovieInstallations() {
 }
 export default AdminMovieInstallations;
 
-function EstablishmentTableRow({ establishment, index, formEnvoke, refresh }) {
+function EstablishmentTableRow({ establishment, index, formEnvoke, refresh, setm2s }) {
     const deleteEstablishment = (m2s) => {
         const requestOptions = {
             method: 'DELETE',
@@ -74,52 +82,51 @@ function EstablishmentTableRow({ establishment, index, formEnvoke, refresh }) {
             .then((data) => {
                 if (data === "OK") {
                     refresh();
+                } else {
+                    alert("The delete could not be performed. Make sure to remove following dependencies: shows.")
                 }
             });
     }
     return (
         <tr>
             <th scope="row" style={{ width: "10%" }}>{index + 1}</th>
-            <td style={{ width: "40%" }}>{establishment.movie.sMovieName + " (" + establishment.sLAnguage + "-" + establishment.sScreenType + ")"}</td>
-            <td style={{ width: "40%" }}>{establishment.screen.theater.sName +"-" + establishment.screen.id }</td>
+            <td style={{ width: "40%" }}>{establishment.movie.sMovieName + " (" + establishment.sLanguage + "-" + establishment.sScreenType + ")"}</td>
+            <td style={{ width: "40%" }}>{establishment.screen.theater.sName + "-" + establishment.screen.id}</td>
             <td style={{ width: "10%" }}>
-                <i className="bx bx-edit-alt" style={{ cursor: "pointer" }} onClick={() => { formEnvoke("Edit") }}></i>
+                <i className="bx bx-edit-alt" style={{ cursor: "pointer" }} onClick={() => { setm2s(establishment); formEnvoke("Edit") }}></i>
                 <i className="bx bx-trash" style={{ cursor: "pointer", color: "orange" }} onClick={() => { deleteEstablishment(establishment) }}></i>
             </td>
         </tr>
     )
 }
 
-function EstablishmentForm({ action, formVisible, refresh }) {
-    const m2sInForm = useRef({
-        id: 0,
-        movie: {sLanguages:"", sScreenType:""},
-        screen: {},
-        sLAnguage: "",
-        sScreenType: ""
-    });
+function EstablishmentForm({ m2s, action, formVisible, refresh }) {
+    const m2sInForm = useRef(m2s);
 
     const [movies, setMovies] = useState([]);
-    const [selectedMovie, setSelectedMovie] = useState({sLanguages:"", sScreenType:""});
+    const [selectedMovie, setSelectedMovie] = useState(m2sInForm.current.movie);
     const [screens, setSereens] = useState([]);
     const [languages, setLanguages] = useState([]);
     const [screentypes, setScreenTypes] = useState([]);
 
     useEffect(() => {
         let languages = selectedMovie.sLanguages.split(", ");
-        m2sInForm.current.sLAnguage =languages[0];
+        if (m2sInForm.current.sLanguage === "") { m2sInForm.current.sLanguage = languages[0]; }
         setLanguages(languages);
         let formats = selectedMovie.sScreenType.split(", ");
-        m2sInForm.current.sScreenType =formats[0];
+        if (m2sInForm.current.sScreenType === "") { m2sInForm.current.sScreenType = formats[0]; }
         setScreenTypes(formats);
     }, [selectedMovie])
 
     useEffect(() => {
+
         fetch("https://localhost:8443/movies")
             .then((response) => response.json())
             .then((data) => {
-                setSelectedMovie(data[0]);
-                m2sInForm.current.movie = data[0];
+                if (action === "Create") {
+                    setSelectedMovie(data[0]);
+                    m2sInForm.current.movie = data[0];
+                }
                 setMovies(data);
 
             });
@@ -127,7 +134,7 @@ function EstablishmentForm({ action, formVisible, refresh }) {
             .then((response) => response.json())
             .then((data) => {
                 setSereens(data);
-                m2sInForm.current.screen = data[0];
+                if (m2sInForm.current.screen === {}) { m2sInForm.current.screen = data[0]; }
             });
     }, [])
 
@@ -135,7 +142,7 @@ function EstablishmentForm({ action, formVisible, refresh }) {
 
     const formValidation = (m2s) => {
         console.log(m2s);
-        if (m2s.movie === {} || m2s.sLAnguage === "" || m2s.sScreenType === "" || m2s.screen === {})
+        if (m2s.movie === {} || m2s.sLanguage === "" || m2s.sScreenType === "" || m2s.screen === {})
             return false;
         return true;
     }
@@ -171,8 +178,8 @@ function EstablishmentForm({ action, formVisible, refresh }) {
                 <label >movie</label>
                 <select className="form-control selector" onChange={(e) => { m2sInForm.current.movie = movies[e.target.value]; setSelectedMovie(movies[e.target.value]) }}>
                     {
-                        movies.map((movie,i) => {
-                            return <option key={movie.id} value={i}>{movie.sMovieName}</option>
+                        movies.map((movie, i) => {
+                            return <option key={movie.id} value={i} selected={selectedMovie === movie}>{movie.sMovieName}</option>
                         })
                     }
                 </select>
@@ -182,8 +189,8 @@ function EstablishmentForm({ action, formVisible, refresh }) {
                 <label >Screen</label>
                 <select className="form-control selector" onChange={(e) => { m2sInForm.current.screen = screens[e.target.value] }}>
                     {
-                        screens.map((screen,i) => {
-                            return <option key={screen.id} value={i}>{screen.theater.sName + "-" + screen.id}</option>
+                        screens.map((screen, i) => {
+                            return <option key={screen.id} value={i} selected={m2sInForm.current.screen === screen}>{screen.theater.sName + "-" + screen.id}</option>
                         })
                     }
                 </select>
@@ -191,10 +198,10 @@ function EstablishmentForm({ action, formVisible, refresh }) {
 
             <div className="form-group">
                 <label >Language</label>
-                <select className="form-control selector" onChange={(e) => { m2sInForm.current.sLAnguage = e.target.value }}>
+                <select className="form-control selector" defaultValue={m2sInForm.current.sLanguages} onChange={(e) => { m2sInForm.current.sLanguage = e.target.value }}>
                     {
                         languages.map(lang => {
-                            return <option key={lang} value={lang}>{lang}</option>
+                            return <option key={lang} value={lang} selected={m2sInForm.current.sLanguage === lang}>{lang}</option>
                         })
                     }
                 </select>
@@ -205,7 +212,7 @@ function EstablishmentForm({ action, formVisible, refresh }) {
                 <select className="form-control selector" onChange={(e) => { m2sInForm.current.sScreenType = e.target.value }}>
                     {
                         screentypes.map(format => {
-                            return <option key={format} value={format}>{format}</option>
+                            return <option key={format} value={format} selected={m2sInForm.current.sScreenType === format}>{format}</option>
                         })
                     }
                 </select>

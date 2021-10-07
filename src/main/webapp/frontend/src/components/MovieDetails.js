@@ -8,6 +8,13 @@ function MovieDetails() {
         totalReviews: 0, ratingStat: [],
         movie: { id: 0, sMovieName: "", sGenre: "", sScreenType: "", dReleaseDate: "", sDuration: "", sDescription: "", imgPath: "", sCast: "", sPosterLink: "", sLanguages: "", sTrailer: "" }
     });
+    const avgRating=(reviewStat)=>{
+        let avgR=0;
+        reviewStat.ratingStat.forEach(stars => {
+            avgR+=stars;
+        });
+        return avgR/reviewStat.totalReviews;
+}
     useEffect(() => {
         fetch("https://localhost:8443/Reviews/stats/" + movieId.id)
             .then((response) => response.json())
@@ -47,7 +54,7 @@ function MovieDetails() {
                     <div style={{ display: "flex", justifyContent: "center" }}>
                         <div style={{ padding: "10px", border: "2px solid green", borderRadius: "15px", display: "flex", justifyContent: "center", width: "fit-content", cursor: "pointer" }}
                             onClick={() => { historyPush(`/movie/${reviewStat.movie.id}/reviews`) }}>
-                            <section><strong> <i className="bx bxs-star" style={{ color: "yellow" }}></i>{reviewStat.totalReviews}</strong></section>&emsp;
+                            <section><strong> <i className="bx bxs-star" style={{ color: "yellow" }}></i>{avgRating(reviewStat)}</strong></section>&emsp;
                             <section>{reviewStat.totalReviews} reviews {" >"}</section>
                         </div>
                     </div>

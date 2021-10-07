@@ -16,7 +16,7 @@ public class Screen {
 	int id;
 	@Autowired
 	@ManyToOne
-	Theater Theater;
+	Theater theater;
 	int jTotalSeats;
 	/*public Screen(Theater Theater, String sScreenType, int jTotalSeats) {
 		super();
@@ -32,10 +32,10 @@ public class Screen {
 	}
 	
 	public Theater getTheater() {
-		return Theater;
+		return theater;
 	}
-	public void setTheater(Theater Theater) {
-		this.Theater = Theater;
+	public void setTheater(Theater theater) {
+		this.theater = theater;
 	}
 	public int getjTotalSeats() {
 		return jTotalSeats;

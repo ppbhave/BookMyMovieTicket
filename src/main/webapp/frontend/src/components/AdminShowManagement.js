@@ -70,7 +70,7 @@ function AdminShowManagement() {
         installedFetch();
     }, []);
 
-    const pageRefresh=()=>{
+    const pageRefresh = () => {
         if (screen > -1) {
             fetch("https://localhost:8443/admin/screen/shows/" + dateFormattedString(startDate) + "/" + dateFormattedString(endDate) + "/" + screens[screen].id)
                 .then((response) => response.json())
@@ -138,7 +138,7 @@ function AdminShowManagement() {
                                     showInForm.current.dStartTiming = dateTimeConvert(startDate);
                                     formEnvoke("Create")
                                 }}
-                                style={{color:"blue", cursor:"pointer"}}>Add new show</p></div>
+                                    style={{ color: "blue", cursor: "pointer" }}>Add new show</p></div>
                             }
                         </section>
                     </div>
@@ -233,7 +233,7 @@ function ShowForm({ showInForm, action, formVisible, refresh }) {
 
     const saveSlot = () => {
         const method = action === "Create" ? 'POST' : 'PUT';
-        const url =   action === "Create" ? 'https://localhost:8443/admin/show/addition' : 'https://localhost:8443/admin/show/update';
+        const url = action === "Create" ? 'https://localhost:8443/admin/show/addition' : 'https://localhost:8443/admin/show/update';
         if (formValidation(showInForm.current)) {
             const requestOptions = {
                 method: method,
@@ -282,8 +282,8 @@ function ShowForm({ showInForm, action, formVisible, refresh }) {
             <div className="form-group">
                 <label>start timing</label>
                 <div className="row" style={{ justifyContent: "center" }}>
-                    <input type="number" className="form-control col-sm-2" min="0" max="23" step="1" onChange={e => { timeref.current.hh = e.target.value }} placeholder="hh" required />&nbsp;:&nbsp;
-                    <input type="number" className="form-control col-sm-2" min="0" max="59" step="1" onChange={e => { timeref.current.mm = e.target.value }} placeholder="mm" required />:
+                    <input type="number" className="form-control col-sm-2" min="0" max="23" step="1" defaultValue={timeref.current.hh} onChange={e => { timeref.current.hh = e.target.value }} placeholder="hh" required />&nbsp;:&nbsp;
+                    <input type="number" className="form-control col-sm-2" min="0" max="59" step="1" defaultValue={timeref.current.mm} onChange={e => { timeref.current.mm = e.target.value }} placeholder="mm" required />:
                 </div>
             </div>
             <div style={{ color: "red" }}>{validationMsg} </div>
@@ -307,7 +307,7 @@ function ShowForm({ showInForm, action, formVisible, refresh }) {
                         }
                     }
                 }} >cancel</button> &nbsp;
-                <button type="button" className="btn btn-danger btn-sm" onClick={e => { e.preventDefault(); deleteSlot() }} >delete</button>
+                {action === "Edit" ? <button type="button" className="btn btn-danger btn-sm" onClick={e => { e.preventDefault(); deleteSlot() }} >delete</button> : <></>}
             </div>
 
         </form>

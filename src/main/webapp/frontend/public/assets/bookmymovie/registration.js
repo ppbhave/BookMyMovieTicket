@@ -1,4 +1,4 @@
-if(sessionStorage.getItem("session_user_id")==undefined){
+if(localStorage.getItem("session_user_id")==undefined){
   document.getElementById("logged-in").style.visibility="hidden";
 }
 else {
@@ -55,7 +55,7 @@ const sendHttpRequest = (method, url, data) => {
     sendHttpRequest('POST', 'https://localhost:8443/register', data)
       .then(responseData => {
         alert("Registration successfully completed.\nPlease proceed to set login id and password.");
-        sessionStorage.setItem("registered_user_id",responseData.id);
+        localStorage.setItem("registered_user_id",responseData.id);
         window.location="credentials.html";
       })
       .catch(err => {

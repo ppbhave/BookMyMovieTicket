@@ -13,7 +13,7 @@ function MovieShows() {
     const [format, setFormat] = useState("");
     const [shows, setShows] = useState([]);
     const defaultDate = new Date("10/09/2021");
-    const user = JSON.parse(sessionStorage.getItem("sessionUser"));
+    const user = JSON.parse(localStorage.getItem("sessionUser"));
 
     useEffect(() => {
         fetch("https://localhost:8443/movie/" + movieId.id)

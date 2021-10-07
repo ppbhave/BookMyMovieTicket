@@ -1,5 +1,5 @@
-var selected_movie_id=sessionStorage.getItem("selected_movie_id");
-if(sessionStorage.getItem("session_user_id")==undefined){
+var selected_movie_id=localStorage.getItem("selected_movie_id");
+if(localStorage.getItem("session_user_id")==undefined){
   document.getElementById("logged-in").style.visibility="hidden";
 }
 else {
@@ -95,17 +95,17 @@ var moviecardContainer=document.getElementById("movie-Poster");
           document.getElementById("actions").appendChild(booking);
 
           $(".btn-primary").on("click",function(){
-            sessionStorage.setItem("selected_movie_id", selected_movie_id);
+            localStorage.setItem("selected_movie_id", selected_movie_id);
             window.location="shows.html";
           });
 
           $(".btn-secondary").on("click",function(){
-            sessionStorage.setItem("selected_movie_id", selected_movie_id);
+            localStorage.setItem("selected_movie_id", selected_movie_id);
             window.location="Reviews.html";
           });
           
     }
     $("#logout").on("click",function(){
-      sessionStorage.removeItem("session_user_id");
+      localStorage.removeItem("session_user_id");
       location.reload();
     });

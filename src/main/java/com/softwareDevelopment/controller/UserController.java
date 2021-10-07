@@ -58,13 +58,13 @@ public class UserController {
 	}
 
 	@PutMapping("/session/Profile/changes")
-	public ResponseEntity<User> EditUser(@RequestBody User register) {
+	public HttpStatus EditUser(@RequestBody User register) {
 		User checkUser = userrepo.findUserBySEmail(register.getsEmail());
 		if (checkUser != null && checkUser.getId() != register.getId()) {
-			return new ResponseEntity<User>(register, HttpStatus.CONFLICT);
+			return HttpStatus.CONFLICT;
 		} else {
 			register = userrepo.save(register);
-			return new ResponseEntity<User>(register, HttpStatus.OK);
+			return HttpStatus.OK;
 		}
 	}
 
@@ -76,6 +76,20 @@ public class UserController {
 	@GetMapping("/session/account/{id}")
 	public Account getlogin(@PathVariable("id") int id) {
 		return accountrepo.findById(id).get();
+	}
+
+	@PutMapping("/update/credentials")
+	public HttpStatus updateCredentials(@RequestBody Account newAccount) {
+		account = accountrepo.findByUsername(newAccount.getsUsername());
+		if (account != null && account.getId() != newAccount.getId()) {
+			return HttpStatus.CONFLICT;
+		} else if (account.getsPassword() != newAccount.getsOldPassword()) {
+			return HttpStatus.BAD_REQUEST;
+		} else {
+			newAccount.setsPassword(passwordEncoder.encode(newAccount.getsPassword()));
+			account = accountrepo.save(newAccount);
+			return HttpStatus.OK;
+		}
 	}
 
 	@PostMapping("/credentials")
@@ -92,8 +106,6 @@ public class UserController {
 		}
 		return mh;
 	}
-	
-	
 
 	@PostMapping("/userlogin")
 	public ResponseEntity<Account> login(@RequestBody Account login) {
@@ -103,6 +115,6 @@ public class UserController {
 		} else {
 			return new ResponseEntity<Account>(account, HttpStatus.OK);
 		}
-		
+
 	}
 }

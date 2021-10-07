@@ -1,13 +1,13 @@
-var selected_movie_id=sessionStorage.getItem("selected_movie_id");
-var selected_show_id=sessionStorage.getItem("selected_show_id");
-if(sessionStorage.getItem("session_user_id")==undefined){
+var selected_movie_id=localStorage.getItem("selected_movie_id");
+var selected_show_id=localStorage.getItem("selected_show_id");
+if(localStorage.getItem("session_user_id")==undefined){
   document.getElementById("logged-in").style.visibility="hidden";
 }
 else {
   document.getElementById("login").style.visibility="hidden";
 }
 
-if(selected_movie_id == undefined || selected_show_id==undefined || sessionStorage.getItem("session_user_id")==undefined)
+if(selected_movie_id == undefined || selected_show_id==undefined || localStorage.getItem("session_user_id")==undefined)
 {
   document.getElementById("alt").innerHTML="something went wrong";
   document.getElementById("show-page-container").style.visibility="hidden";
@@ -110,7 +110,7 @@ function sendHttpRequest (method, url, data){
             sendData({
               seats_id:seats,
               show_id:selected_show_id,
-              user_id:sessionStorage.getItem("session_user_id"),
+              user_id:localStorage.getItem("session_user_id"),
               movie:document.getElementById("movie_name").innerHTML
             });
       });
@@ -177,7 +177,7 @@ seating.addEventListener("click", (e) => {
 });
 
 $("#logout").on("click",function(){
-  sessionStorage.removeItem("session_user_id");
+  localStorage.removeItem("session_user_id");
   location.reload();
 });
 

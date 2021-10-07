@@ -8,7 +8,7 @@ function Seatbooking() {
     }
     const bookingParams = useParams();
     const ticketCharge = 150;
-    const user = JSON.parse(sessionStorage.getItem("sessionUser"));
+    const user = JSON.parse(localStorage.getItem("sessionUser"));
     const [seats, setSeats] = useState([]);
     const [movie, setMovie] = useState({ sMovieName: "" });
     const [screen, setScreen] = useState({ theater: { sName: "" } });
@@ -56,20 +56,8 @@ function Seatbooking() {
             seats_id: selectedSeats.current,
             movie: movie.sMovieName
         }
-        const requestOptions = {
-            method: "POST",
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(bookingReq)
-        };
-        fetch("https://localhost:8443/session/seatbooking", requestOptions)
-            .then((response) => 
-            response.json())
-            .then((data) => {
-                if (data.httpstatus === "OK") {
-                    alert(data.message);
-                     historyPush("/Movies");
-                }
-            });
+        localStorage.setItem("bookingReq", JSON.stringify(bookingReq));
+        historyPush(`/payment/${payable}`);
     }
     return (
         <div className="show-page-container page-content" >

@@ -5,6 +5,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
+import javax.persistence.Transient;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -20,6 +21,14 @@ public class Account {
 	String sUsername;
 	String sPassword;
 	String Role;
+	@Transient
+	String sOldPassword;
+	public String getsOldPassword() {
+		return sOldPassword;
+	}
+	public void setsOldPassword(String sOldPassword) {
+		this.sOldPassword = sOldPassword;
+	}
 	public String getRole() {
 		return Role;
 	}

@@ -94,14 +94,14 @@ public class MovieShowController {
 
 	@ResponseBody
 	@PostMapping("/admin/show/addition")
-	public ResponseEntity<HttpStatus> setMovieShow(@RequestBody Shows show) {
+	public HttpStatus setMovieShow(@RequestBody Shows show) {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
 		show.setdStartTiming(LocalDateTime.parse(show.getDatetime(), formatter));
 		show = showrepo.save(show);
 		if (show.getId() > 0) {
-			return new ResponseEntity<HttpStatus>(HttpStatus.OK);
+			return HttpStatus.OK;
 		} else {
-			return new ResponseEntity<HttpStatus>(HttpStatus.EXPECTATION_FAILED);
+			return HttpStatus.EXPECTATION_FAILED;
 		}
 	}
 

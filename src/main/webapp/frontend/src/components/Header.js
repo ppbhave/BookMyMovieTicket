@@ -7,14 +7,17 @@ import MovieShows from "./MovieShows";
 import Seatbooking from "./Seatbooking";
 import AdminNavbar from "./AdminNavbar";
 import "./styles/header.css"
-import profile from "./Profile";
 import MyBookings from "./MyBookings";
 import UserRegistration from "./UserRegistration";
 import { useState } from "react";
-import { useEffect } from "react/cjs/react.development";
 import Profile from "./Profile";
+import Payment from "./Payment";
 function Header() {
-  const [session, setSession] = useState(null);
+  const [session, setSession] = useState(JSON.parse(localStorage.getItem("sessionUser")));
+  const updateSession = (account) => {
+    setSession(account);
+    localStorage.setItem("sessionUser",account);
+  }
   return (
     <div>
       <Router>
@@ -31,7 +34,7 @@ function Header() {
                         <li><Link to="/user/profile"><i className="bx bx-user-circle">My profile</i></Link></li>
                         <li><Link to="/user/bookings">My bookings</Link></li>
                         {session.role === "ROLE_ADMIN" ? <li><Link to="/admin">admin</Link></li> : <></>}
-                        <li style={{ color: "#fff", fontSize: "14px", cursor: "pointer" }} onClick={() => { setSession(null) }}>Logout</li>
+                        <li style={{ color: "#fff", fontSize: "14px", cursor: "pointer" }} onClick={() => { setSession(null); localStorage.removeItem("sessionUser"); }}>Logout</li>
                       </ul>
                     </li>
                   )
@@ -47,13 +50,14 @@ function Header() {
         <Switch>
           <Route path={["/", "/Movies"]} exact component={MovieCards}></Route>
           <Route path="/movie/:id" exact component={MovieDetails}></Route>
-          <Route path="/movie/:id/reviews" exact component={Reviews}></Route>
+          <Route path="/movie/:id/reviews" exact render={() => (<Reviews user={session.user}/>)}></Route>
           <Route path="/movie/:id/shows" exact component={MovieShows}></Route>
           <Route path="/movie/:movieid/show/:showid/booking" exact component={Seatbooking}></Route>
-          <Route path="/login" exact render={() => (<Login setSession={setSession} />)}></Route>
+          <Route path="/payment/:payment" exact component={Payment}></Route>
+          <Route path="/login" exact render={() => (<Login setSession={updateSession} />)}></Route>
           <Route path="/register" exact component={UserRegistration}></Route>
-          <Route path="/user/profile" exact render={() => (<Profile session={session} setSession={setSession} />)}></Route>
-          <Route path="/user/bookings" exact component={MyBookings}></Route>
+          <Route path="/user/profile" exact render={() => (<Profile session={session} setSession={updateSession} />)}></Route>
+          <Route path="/user/bookings" exact render={() => (<MyBookings user={session.user}/>)}></Route>
           <Route path="/admin" exact component={AdminNavbar}></Route>
         </Switch>
       </Router>
