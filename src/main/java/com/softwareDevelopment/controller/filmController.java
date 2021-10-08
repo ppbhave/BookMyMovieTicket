@@ -36,7 +36,7 @@ public class filmController {
 	@GetMapping("/movie/{id}")
 	@ResponseBody
 	public ResponseEntity<Film> getMovieById(@PathVariable int id) {
-		Film film = filmrepo.findById(id).orElseThrow();
+		Film film = filmrepo.findById(id).get();
 		ResponseEntity<Film> resp = new ResponseEntity<Film>(film, HttpStatus.OK);
 		return resp;
 	}

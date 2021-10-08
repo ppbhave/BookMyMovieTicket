@@ -38,7 +38,7 @@ public class TheaterController {
 	@ResponseBody
 	public ResponseEntity<Theater> getTheaterById(@PathVariable int id)
 	{
-		Theater Theater=theaterrepo.findById(id).orElseThrow();
+		Theater Theater=theaterrepo.findById(id).get();
 		ResponseEntity<Theater> resp=new ResponseEntity<Theater>(Theater,HttpStatus.OK);
 		return resp;
 	}
