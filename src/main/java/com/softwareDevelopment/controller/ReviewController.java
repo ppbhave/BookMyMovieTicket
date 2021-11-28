@@ -65,10 +65,12 @@ public class ReviewController {
 	@ResponseBody
 	public HttpStatus addNewReview(@RequestBody Review review)
 	{
-		review.setMovie(fr.findById(review.getMovie().getId()).get());
-		review.setUser(ur.findById(review.getUser().getId()).get());
-		review=reviewrepo.save(review);
-		return HttpStatus.OK;
+		if(review.getUser().getId() >0 || review.getMovie().getId()>0)
+		{ 
+			review=reviewrepo.save(review);
+			return HttpStatus.OK;
+		}
+		return HttpStatus.CONFLICT;
 	}
 	
 	@DeleteMapping("/session/dropReview")

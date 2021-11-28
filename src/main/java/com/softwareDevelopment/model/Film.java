@@ -14,8 +14,8 @@ public class Film {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	int id;
 
-	String sMovieName, sGenre, sDescription, sTrailer, sPosterLink; // straight
-	String sCast, sScreenType, sLanguages; // csv
+	String sMovieName,  sDescription, sTrailer, sPosterLink; // straight
+	String sCast, sScreenType, sLanguages, sGenre; // csv 
 	String sDuration; // HH:mm
 	String dReleaseDate; // dd:mm:yyyy
 

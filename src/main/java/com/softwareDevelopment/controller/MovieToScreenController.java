@@ -38,7 +38,8 @@ public class MovieToScreenController {
 	@GetMapping("/admin/movies/screens/installed")
 	public  ResponseEntity<List<MovieToScreen>> geInstallations() 
 	{
-		return new ResponseEntity<List<MovieToScreen>>(movieScreenRepo.findAll(),HttpStatus.OK);		
+		List<MovieToScreen> installations = movieScreenRepo.findAll();
+		return new ResponseEntity<List<MovieToScreen>>(installations,HttpStatus.OK);		
 	}
 	
 	@PostMapping("/admin/add/installation")
