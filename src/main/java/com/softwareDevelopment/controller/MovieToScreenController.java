@@ -35,6 +35,14 @@ public class MovieToScreenController {
 	} 
 	
 	@ResponseBody
+	@PostMapping("/installation/screen")
+	public  ResponseEntity<MovieToScreen> getByScreens(@RequestBody Screen screen) 
+	{
+		movieScreens = movieScreenRepo.getByScreen(screen);
+		return new ResponseEntity<MovieToScreen>(movieScreens,HttpStatus.OK);		
+	} 
+	
+	@ResponseBody
 	@GetMapping("/admin/movies/screens/installed")
 	public  ResponseEntity<List<MovieToScreen>> geInstallations() 
 	{

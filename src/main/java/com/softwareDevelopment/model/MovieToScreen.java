@@ -22,6 +22,7 @@ public class MovieToScreen {
 	@OneToOne
 	Screen screen;
 	String sScreenType,sLanguage;
+	int gold,silver,royal;
 	public int getId() {
 		return id;
 	}
@@ -30,6 +31,24 @@ public class MovieToScreen {
 	}
 	public Film getMovie() {
 		return Movie;
+	}
+	public int getGold() {
+		return gold;
+	}
+	public void setGold(int gold) {
+		this.gold = gold;
+	}
+	public int getSilver() {
+		return silver;
+	}
+	public void setSilver(int silver) {
+		this.silver = silver;
+	}
+	public int getRoyal() {
+		return royal;
+	}
+	public void setRoyal(int royal) {
+		this.royal = royal;
 	}
 	public void setMovie(Film movie) {
 		Movie = movie;

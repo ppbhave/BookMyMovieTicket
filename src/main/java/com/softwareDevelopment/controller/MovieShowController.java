@@ -55,6 +55,17 @@ public class MovieShowController {
 	}
 
 	@ResponseBody
+	@GetMapping("/show/{show_id}")
+	public ResponseEntity<Shows> getShowbyId(@PathVariable int show_id) { // 20210910
+		Shows show = showrepo.findById(show_id).get();
+		if(show != null && show.getId() > 0) {
+			return new ResponseEntity<Shows>(show, HttpStatus.OK);
+		}
+		return new ResponseEntity<Shows>(show, HttpStatus.CONFLICT);
+	}
+
+	
+	@ResponseBody
 	@GetMapping("admin/screen/shows/{dateFrom}/{dateTo}/{screenId}")
 	public ResponseEntity<List<List<Shows>>> getShowsForScreen(@PathVariable int screenId,
 			@PathVariable String dateFrom, @PathVariable String dateTo) { // 20210910
@@ -87,8 +98,6 @@ public class MovieShowController {
 			}
 			listShows.add(showDay);
 		}
-		
-
 		return new ResponseEntity<List<List<Shows>>>(listShows, HttpStatus.OK);
 	}
 
